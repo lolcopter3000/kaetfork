@@ -1,19 +1,19 @@
 /**
-@author ertdfgcvb
+@author kaet
 @title  Camera grayscale
 @desc   Grayscale input from camera
 */
 
-import { sort } from '/src/modules/sort.js'
-import Camera from '/src/modules/camera.js'
-import Canvas from '/src/modules/canvas.js'
+import { sort } from './play.core/src/modules/sort.js'
+import Camera from './play.core/src/modules/camera.js'
+import Canvas from './play.core/src/modules/canvas.js'
 
 const cam = Camera.init()
 const can = new Canvas()
 // For a debug view uncomment the following line:
-// can.display(document.body, 10, 10)
+ can.display(document.body, 10, 10)
 
-const density = sort(' .+@▂▄▆█', 'Simple Console', false)
+const density = sort(' .+╋┿', 'Helvetica', false)
 
 const data = []
 
@@ -35,8 +35,4 @@ export function main(coord, context, cursor, buffer) {
 	return density[index]
 }
 
-import { drawInfo } from '/src/modules/drawbox.js'
-export function post(context, cursor, buffer) {
-	drawInfo(context, cursor, buffer)
-}
 

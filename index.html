@@ -78,6 +78,22 @@
                 padding: 1em 1em;
             }
 
+            .face-name img {
+                display: inline-block;
+                width: auto;
+                height: 100px;
+                
+            }
+
+            .face-name pre {
+                width: 80%;
+                display: inline-block;
+                height:100px;
+                line-height: 1.2;
+		    }
+
+            pre
+
         </style>
 
     </head>
@@ -101,11 +117,15 @@
 
         </header>
 
+
         <main>
 
-            <img src="img/kateface.jpg" alt="Kate's face" /> 
+            <div class="face-name">
+                <img src="img/kateface.jpg" alt="Kate's face" />
 
-            <h1>Kate O'Neill</h1>
+                <pre></pre>
+            </div>
+
             <p> 
                 Hello, I am a final year <abbr title="Integrated Computer Science">ICS</abbr> Student at <abbr title="Trinity College Dublin">TCD</abbr>.
                 This is my personal website that acts as a portfolio. 
@@ -211,6 +231,17 @@ German  ⭐️⭐️⭐️</pre>
                 </section>              
 
             </aside>
+
+            <script type="module">
+                import { run } from './play.core/src/run.js'
+                import * as program from './name.js'
+                run(program, { element : document.querySelector('pre') }).then(function(e){
+                    console.log(e)
+                }).catch(function(e) {
+                    console.warn(e.message)
+                    console.log(e.error)
+                })
+            </script>
 
         </main>
 
