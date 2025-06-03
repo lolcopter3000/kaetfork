@@ -4,7 +4,7 @@
 @desc   name display
 */
 
-const density = 'kate o\'neill '
+const density = 'thomas l. kerr '
 
 export function main(coord, context, cursor, buffer) {
 	// To generate an output return a single character
