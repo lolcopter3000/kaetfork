@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+        <link rel="tolkien_sunrise-3.jpg" href="/img/tolkien_sunrise-3.jpg">
+        
+        <title>thomas kerr music</title>
+
+        <meta name="description" content="My name is Thomas Kerr and this is my personal website and portfolio!">
+
+        <style>
+            * {
+
+                box-sizing: border-box;
+                font-size: medium;
+            }
+
+            h1, h2, h3 {
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            p {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            img {
+                height: 150px;
+            }
+
+            header div {
+                display: inline-block;
+                vertical-align: bottom;
+            }
+
+            body {
+	            font-family: 'Times New Roman', serif;
+	            margin: 0;
+                padding: 0;
+                text-align: left;
+                background-size: 100% 600px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                font-size: 20px;
+                line-height: 1.7;
+            }
+
+            main {
+                width: 720px;
+                max-width: calc(100% - 2em);
+                margin: auto;
+                padding: 3em 1em;
+            }
+
+            header {
+                margin: 0;
+                padding: 1em 1em;
+            }
+
+            nav a {
+	        	padding: 0.5em 0.5em;
+	        }
+
+            footer {
+                padding: 1em 1em;
+            }
+
+            .face-name img {
+                display: inline-block;
+                width: auto;
+                height: 100px;
+
+            }
+
+            .face-name pre {
+                width: 80%;
+                display: inline-block;
+                height:100px;
+                line-height: 1.2;
+		    }
+
+        </style>
+
+    </head>
+
+    <body>
+        <header>
+
+            
+            
+
+
+                
+
+                <nav>
+                    <a href="https://www.instagram.com/thomaslkerr/">instagram</a>
+		    <a href="https://www.dropbox.com/scl/fi/aw7a6hyfx31rgowlo9bab/Nocturne-Revised.wav?rlkey=fcrqguvkcrc3mpe6ktp3bx992&st=dgvj18bd&dl=0">dropbox</a>
+                </nav>
+
+
+
+        </header>
+
+
+        <main>
+
+            <div class="face-name">
+                <img src="img/thomasguitar1.jpg" alt="thomas with guitar" />
+
+                <pre></pre>
+            </div>
+
+            <p> 
+                Hi! I'm a final year Music student studying at TCD. This is a personal website that acts as a portfolio. 
+            </p>
+
+		
+            <article>
+
+		      <section> 
+			This website is a WIP! Next I will join media to links. <br />
+            
+                    <h2>Image</h2>
+                    <p>This is an image.</p>
+
+                    <figure>
+                        
+                        <img src="/img/lij1.PNG" alt="lij1.PNG">
+			<img src="/img/lij2.JPG" alt="lij2.JPG">
+			<img src="/img/lij3.JPG" alt="lij3.JPG">
+			<img src="/img/lij4.jpg" alt="lij4.JPG">
+			<img src="/img/lij5.JPG" alt="lij5.JPG">
+ 	
+                    </figure>
+
+                </section>
+
+		    
+
+            </aside>
+
+            <script type="module">
+                import { run } from './play.core/src/run.js'
+                import * as program from './name.js'
+                run(program, { element : document.querySelector('pre') }).then(function(e){
+                    console.log(e)
+                }).catch(function(e) {
+                    console.warn(e.message)
+                    console.log(e.error)
+                })
+            </script>
+
+        </main>
+
+        <footer>
+
+            <p id="time"></p> 
+
+        </footer>
+
+        <script type="text/javascript" charset="utf-8">
+            let a;
+            let time;
+            setInterval(() => {
+              a = new Date();
+              time = a.toDateString() + ' ' + a.toTimeString();
+              time = time.toLowerCase();
+              document.getElementById('time').innerHTML = time;
+            }, 1000);
+          </script>
+    </body>
+</html>
