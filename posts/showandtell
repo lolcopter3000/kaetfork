@@ -1,0 +1,37 @@
+" content="width=device-width, initial-scale=1.0">
+    <title>thomas kerr html website</title>
+    <style>
+        body {
+        background-color: #000000;
+        padding-top: 10px;
+        padding-left: 10%;
+        padding-right: 10px;
+        max-width: 600px;
+	      font-family: Times;
+        color: rgb(255, 255, 255);
+        }
+    </style>
+  </head>
+
+  <body>
+        <br>
+        <br>
+        <br>
+        <br>
+        <header>
+        <a href="index.html" style="color:#b5723f">head west</a> 
+        </header>
+<br>
+<br>
+<img src="img-posts/icgea3.JPG" width="100%" vspace="30">
+<br>
+<br>
+<footer>
+<a href="../posts/prize.html" style="color:#464646">further on</a> 
+</footer>
+
+
+      </div>
+  </body>
+
+</html>
