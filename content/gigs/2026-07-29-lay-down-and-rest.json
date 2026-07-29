@@ -1,9 +1,14 @@
 {
   "title": "Lay Down and Rest",
   "date": "2026-07-16T19:30",
-  "category": "Theatre",
-  "location": "Theatre piece created with video designer Jack Leitch about time, love, memory, and death.",
+  "summary": "Theatre piece created in duo with video designer Jack Leitch",
+  "categories": [
+    "Performance",
+    "Theatre"
+  ],
+  "location": "",
   "image": "/uploads/729ba57e8dd1090305809ee16d1a7b1a.jpg",
-  "notes": "Thomas Kerr - all music and instruments \nJack Leitch - video design\nRed Sullivan - reading of Larkin's 'The Mower'",
-  "ticket_link": ""
+  "notes": "The piece was about time, love, memory and death. It was devised collaboratively in July 2026, and comprised music by me and video by Jack. Tickets were free and it was performed in Kirkos.",
+  "ticket_link": "",
+  "category": "Theatre"
 }
