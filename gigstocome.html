@@ -12,25 +12,28 @@
                 font-family: 'Calibri', monospace, sans-serif;
             }
             body {
-                background-color: #FFFFFF;
+                background-color: #ffffff;
                 color: #000000;
                 margin: 0;
                 padding: 0;
                 font-size: 15px;
                 line-height: 1.5;
             }
-            /* Kate Wagner's narrow reading width settings */
+
+            /* Container styled to Kate Wagner's narrow width */
             main {
                 width: 100%;
                 max-width: 650px;
                 margin: 0 auto;
-                padding: 2em 1.25em;
+                padding: 2.5em 1.25em;
             }
+
             header {
                 text-align: center;
-                margin-bottom: 1.5em;
+                margin-bottom: 2em;
                 font-size: 14px;
             }
+
             a {
                 color: #000000;
                 text-decoration: underline;
@@ -38,7 +41,7 @@
             a:visited { color: #0A0436; }
             a:hover { color: #555555; }
 
-            /* Sebastian Adams Filter Controls */
+            /* Sebastian Adams Filter & Control Bar */
             .controls {
                 background: #f4f4f4;
                 padding: 12px 14px;
@@ -51,7 +54,7 @@
                 flex-wrap: wrap;
                 gap: 8px;
                 align-items: center;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
             }
             .filter-group:last-child {
                 margin-bottom: 0;
@@ -63,34 +66,85 @@
                 flex-grow: 1;
                 width: 100%;
             }
-            button.btn-filter {
-                background: #e0e0e0;
-                border: 1px solid #aaa;
-                padding: 3px 8px;
+            
+            /* Tag Buttons */
+            .tag-btn {
+                background: transparent;
+                border: none;
+                color: #555555;
                 cursor: pointer;
-                font-size: 12px;
+                padding: 0;
+                font-size: 13px;
+                text-decoration: none;
             }
-            button.btn-filter.active {
-                background: #000000;
-                color: #ffffff;
+            .tag-btn:hover {
+                text-decoration: underline;
+                color: #000000;
+            }
+            .tag-btn.active {
+                font-weight: bold;
+                color: #000000;
+                text-decoration: underline;
             }
 
-            /* Entry Items */
+            /* Work Entry Item */
             .work-item {
                 border-bottom: 1px dotted #ccc;
                 padding-bottom: 1.25em;
                 margin-bottom: 1.25em;
             }
-            .work-meta {
-                font-size: 12px;
-                color: #666666;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
+
+            .work-header {
+                font-size: 16px;
             }
+
             .work-title {
-                font-size: 17px;
                 font-weight: bold;
-                margin: 0.2em 0;
+            }
+
+            .work-date {
+                color: #555555;
+            }
+
+            .work-tagline {
+                font-style: italic;
+                color: #333333;
+                margin: 0.25em 0;
+                font-size: 14px;
+            }
+
+            /* Clickable tags rendered next to each entry */
+            .entry-tags {
+                margin: 0.4em 0;
+                font-size: 12px;
+            }
+            .entry-tag-link {
+                color: #666666;
+                cursor: pointer;
+                text-decoration: none;
+                margin-right: 4px;
+            }
+            .entry-tag-link:hover {
+                color: #000000;
+                text-decoration: underline;
+            }
+
+            /* Native Expandable Dropdown (<details> / <summary>) */
+            details {
+                margin-top: 0.5em;
+                font-size: 14px;
+            }
+            summary {
+                cursor: pointer;
+                color: #000000;
+                font-size: 13px;
+                user-select: none;
+            }
+            summary:hover {
+                text-decoration: underline;
+            }
+            .dropdown-content {
+                padding: 0.8em 0 0 0;
             }
             .work-img {
                 max-width: 100%;
@@ -101,15 +155,9 @@
 
             /* Responsive Adjustments for Mobile */
             @media (max-width: 600px) {
-                body {
-                    font-size: 14px;
-                }
-                main {
-                    padding: 1.25em 1em;
-                }
-                .controls {
-                    padding: 10px;
-                }
+                body { font-size: 14px; }
+                main { padding: 1.25em 1em; }
+                .controls { padding: 10px; }
             }
         </style>
     </head>
@@ -119,7 +167,7 @@
                 <a href="index.html" style="color:#b5723f">← go back to the beginning</a> 
             </header>
 
-            <!-- Control / Archive Filter Bar -->
+            <!-- Control / Search & Tag Filter Bar -->
             <div class="controls">
                 <div class="filter-group">
                     <strong>SEARCH:</strong>
@@ -127,10 +175,10 @@
                 </div>
                 <div class="filter-group" id="category-buttons">
                     <strong>BROWSE:</strong>
-                    <button class="btn-filter active" onclick="filterCategory('ALL')">ALL</button>
-                    <button class="btn-filter" onclick="filterCategory('Performance')">PERFORMANCES</button>
-                    <button class="btn-filter" onclick="filterCategory('Music Release')">RELEASES</button>
-                    <button class="btn-filter" onclick="filterCategory('Theatre')">THEATRE</button>
+                    <button class="tag-btn active" onclick="filterCategory('ALL')">[all]</button>
+                    <button class="tag-btn" onclick="filterCategory('Performance')">[performances]</button>
+                    <button class="tag-btn" onclick="filterCategory('Music Release')">[releases]</button>
+                    <button class="tag-btn" onclick="filterCategory('Theatre')">[theatre]</button>
                 </div>
             </div>
 
@@ -170,26 +218,53 @@
                     return;
                 }
 
-                container.innerHTML = items.map(gig => `
-                    <div class="work-item">
-                        <div class="work-meta">
-                            [${gig.category || 'WORK'}] — ${new Date(gig.date).toLocaleDateString('en-GB')}
+                container.innerHTML = items.map(gig => {
+                    const year = new Date(gig.date).getFullYear();
+                    const catTag = gig.category || 'Performance';
+
+                    return `
+                        <div class="work-item">
+                            <!-- Title & Year -->
+                            <div class="work-header">
+                                <span class="work-title">${gig.title}</span> 
+                                <span class="work-date">(${year})</span>
+                            </div>
+
+                            <!-- Brief Italicised Description / Location -->
+                            <div class="work-tagline">
+                                ${gig.location ? `${gig.location}` : 'Works / Archive entry'}
+                            </div>
+
+                            <!-- Square Bracket Tags -->
+                            <div class="entry-tags">
+                                <span class="entry-tag-link" onclick="filterCategory('ALL')">[all]</span>
+                                <span class="entry-tag-link" onclick="filterCategory('${catTag}')">[${catTag.toLowerCase()}]</span>
+                            </div>
+
+                            <!-- Expandable Dropdown with Detailed Info -->
+                            ${(gig.notes || gig.image || gig.ticket_link) ? `
+                                <details>
+                                    <summary>[more info / details]</summary>
+                                    <div class="dropdown-content">
+                                        ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
+                                        ${gig.notes ? `<p style="margin: 0.5em 0;">${gig.notes}</p>` : ''}
+                                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank" style="font-size: 13px;">[link / documentation]</a>` : ''}
+                                    </div>
+                                </details>
+                            ` : ''}
                         </div>
-                        <div class="work-title">
-                            <i>${gig.title}</i> ${gig.location ? `— ${gig.location}` : ''}
-                        </div>
-                        ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
-                        ${gig.notes ? `<p style="margin:0.5em 0;">${gig.notes}</p>` : ''}
-                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank" style="font-size:13px;">[link / details]</a>` : ''}
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             }
 
             function filterCategory(cat) {
                 activeCategory = cat;
                 
+                // Highlight active category in filter bar
                 document.querySelectorAll('#category-buttons button').forEach(btn => {
-                    btn.classList.toggle('active', btn.innerText.includes(cat.toUpperCase()));
+                    const btnText = btn.innerText.replace('[', '').replace(']', '').toLowerCase();
+                    const targetText = cat.toLowerCase();
+                    btn.classList.toggle('active', btnText === targetText || (cat === 'ALL' && btnText === 'all'));
                 });
 
                 applyFilters();
@@ -199,7 +274,7 @@
                 const searchTerm = document.getElementById('search-input').value.toLowerCase();
                 
                 const filtered = allGigs.filter(gig => {
-                    const matchesCategory = (activeCategory === 'ALL' || gig.category === activeCategory);
+                    const matchesCategory = (activeCategory === 'ALL' || (gig.category && gig.category.toLowerCase() === activeCategory.toLowerCase()));
                     const matchesSearch = (gig.title?.toLowerCase().includes(searchTerm) || 
                                            gig.location?.toLowerCase().includes(searchTerm) ||
                                            gig.notes?.toLowerCase().includes(searchTerm));
