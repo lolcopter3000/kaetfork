@@ -20,7 +20,7 @@
                 line-height: 1.5;
             }
 
-            /* Container styled to Kate Wagner's narrow width */
+            /* Narrow Reading Width */
             main {
                 width: 100%;
                 max-width: 650px;
@@ -41,7 +41,7 @@
             a:visited { color: #0A0436; }
             a:hover { color: #555555; }
 
-            /* Sebastian Adams Filter & Control Bar */
+            /* Filter & Control Bar */
             .controls {
                 background: #f4f4f4;
                 padding: 12px 14px;
@@ -102,18 +102,16 @@
                 font-weight: bold;
             }
 
-            .work-date {
+            .work-meta {
                 color: #555555;
             }
 
-            .work-tagline {
+            .work-summary {
+                color: #555555;
                 font-style: italic;
-                color: #333333;
-                margin: 0.25em 0;
-                font-size: 14px;
             }
 
-            /* Clickable tags rendered next to each entry */
+            /* Clickable Tags List per Entry */
             .entry-tags {
                 margin: 0.4em 0;
                 font-size: 12px;
@@ -122,14 +120,14 @@
                 color: #666666;
                 cursor: pointer;
                 text-decoration: none;
-                margin-right: 4px;
+                margin-right: 6px;
             }
             .entry-tag-link:hover {
                 color: #000000;
                 text-decoration: underline;
             }
 
-            /* Native Expandable Dropdown (<details> / <summary>) */
+            /* Native Expandable Dropdown */
             details {
                 margin-top: 0.5em;
                 font-size: 14px;
@@ -153,7 +151,6 @@
                 margin: 10px 0;
             }
 
-            /* Responsive Adjustments for Mobile */
             @media (max-width: 600px) {
                 body { font-size: 14px; }
                 main { padding: 1.25em 1em; }
@@ -179,6 +176,7 @@
                     <button class="tag-btn" onclick="filterCategory('Performance')">[performances]</button>
                     <button class="tag-btn" onclick="filterCategory('Music Release')">[releases]</button>
                     <button class="tag-btn" onclick="filterCategory('Theatre')">[theatre]</button>
+                    <button class="tag-btn" onclick="filterCategory('Installation')">[installation]</button>
                 </div>
             </div>
 
@@ -211,6 +209,14 @@
                 }
             }
 
+            // Normalizes single string or array into a clean array of tags
+            function getItemTags(gig) {
+                if (Array.isArray(gig.categories)) return gig.categories;
+                if (Array.isArray(gig.category)) return gig.category;
+                if (typeof gig.category === 'string') return [gig.category];
+                return ['Performance'];
+            }
+
             function renderGigs(items) {
                 const container = document.getElementById('gigs-container');
                 if (items.length === 0) {
@@ -220,32 +226,34 @@
 
                 container.innerHTML = items.map(gig => {
                     const year = new Date(gig.date).getFullYear();
-                    const catTag = gig.category || 'Performance';
+                    const tags = getItemTags(gig);
+
+                    // Build HTML for tags: [all] plus each tag for this work
+                    const tagsHtml = `
+                        <span class="entry-tag-link" onclick="filterCategory('ALL')">[all]</span>
+                        ${tags.map(t => `<span class="entry-tag-link" onclick="filterCategory('${t}')">[${t.toLowerCase()}]</span>`).join('')}
+                    `;
 
                     return `
                         <div class="work-item">
-                            <!-- Title & Year -->
+                            <!-- Title, Year, and Italicised Summary -->
                             <div class="work-header">
                                 <span class="work-title">${gig.title}</span> 
-                                <span class="work-date">(${year})</span>
+                                <span class="work-meta">(${year})</span>
+                                ${gig.summary ? `<span class="work-summary"> — ${gig.summary}</span>` : ''}
                             </div>
 
-                            <!-- Brief Italicised Description / Location -->
-                            <div class="work-tagline">
-                                ${gig.location ? `${gig.location}` : 'Works / Archive entry'}
-                            </div>
-
-                            <!-- Square Bracket Tags -->
+                            <!-- Clickable Tags -->
                             <div class="entry-tags">
-                                <span class="entry-tag-link" onclick="filterCategory('ALL')">[all]</span>
-                                <span class="entry-tag-link" onclick="filterCategory('${catTag}')">[${catTag.toLowerCase()}]</span>
+                                ${tagsHtml}
                             </div>
 
                             <!-- Expandable Dropdown with Detailed Info -->
-                            ${(gig.notes || gig.image || gig.ticket_link) ? `
+                            ${(gig.notes || gig.image || gig.ticket_link || gig.location) ? `
                                 <details>
                                     <summary>[more info / details]</summary>
                                     <div class="dropdown-content">
+                                        ${gig.location ? `<p style="margin: 0 0 0.5em 0;"><strong>Venue / Location:</strong> ${gig.location}</p>` : ''}
                                         ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
                                         ${gig.notes ? `<p style="margin: 0.5em 0;">${gig.notes}</p>` : ''}
                                         ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank" style="font-size: 13px;">[link / documentation]</a>` : ''}
@@ -260,7 +268,7 @@
             function filterCategory(cat) {
                 activeCategory = cat;
                 
-                // Highlight active category in filter bar
+                // Highlight active button in filter bar
                 document.querySelectorAll('#category-buttons button').forEach(btn => {
                     const btnText = btn.innerText.replace('[', '').replace(']', '').toLowerCase();
                     const targetText = cat.toLowerCase();
@@ -274,10 +282,19 @@
                 const searchTerm = document.getElementById('search-input').value.toLowerCase();
                 
                 const filtered = allGigs.filter(gig => {
-                    const matchesCategory = (activeCategory === 'ALL' || (gig.category && gig.category.toLowerCase() === activeCategory.toLowerCase()));
-                    const matchesSearch = (gig.title?.toLowerCase().includes(searchTerm) || 
-                                           gig.location?.toLowerCase().includes(searchTerm) ||
-                                           gig.notes?.toLowerCase().includes(searchTerm));
+                    const itemTags = getItemTags(gig);
+                    const matchesCategory = (
+                        activeCategory === 'ALL' || 
+                        itemTags.some(t => t.toLowerCase() === activeCategory.toLowerCase())
+                    );
+                    
+                    const matchesSearch = (
+                        gig.title?.toLowerCase().includes(searchTerm) || 
+                        gig.summary?.toLowerCase().includes(searchTerm) ||
+                        gig.location?.toLowerCase().includes(searchTerm) ||
+                        gig.notes?.toLowerCase().includes(searchTerm)
+                    );
+
                     return matchesCategory && matchesSearch;
                 });
 
