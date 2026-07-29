@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thomas Kerr — Grid Archive</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Profile Shell */
+        main {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1em 0.8em 3em;
+        }
+
+        /* Back Link */
+        .nav-back {
+            text-align: center;
+            margin-bottom: 1.2em;
+            font-size: 13px;
+            font-family: 'Calibri', monospace, sans-serif;
+        }
+        .nav-back a {
+            color: #b5723f;
+            text-decoration: underline;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5em;
+            padding: 0 0.5em 1.5em 0.5em;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .avatar {
+            width: 77px;
+            height: 77px;
+            border-radius: 50%;
+            background: #eee;
+            border: 1px solid #dbdbdb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+            color: #555;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-username {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 1.5em;
+            font-size: 13px;
+            color: #262626;
+            margin-bottom: 6px;
+        }
+
+        .profile-bio {
+            font-size: 13px;
+            color: #444;
+        }
+
+        /* Filter Pills / Tabs Bar */
+        .filter-bar {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 0.8em 0.5em;
+            border-bottom: 1px solid #dbdbdb;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        .filter-bar::-webkit-scrollbar {
+            display: none; /* Hide scrollbar Chrome/Safari */
+        }
+
+        .filter-pill {
+            background: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 4px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            color: #555;
+        }
+        .filter-pill.active {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        /* Instagram 3-Column Square Grid */
+        .insta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            margin-top: 3px;
+        }
+
+        .grid-tile {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: #f4f4f4;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .grid-tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.2s ease;
+        }
+
+        .grid-tile:hover img {
+            opacity: 0.9;
+        }
+
+        /* Placeholder tile when an entry has no image */
+        .no-img-tile {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            background: #fafafa;
+            border: 1px solid #eee;
+            box-sizing: border-box;
+        }
+
+        /* Fullscreen Overlay / Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1em;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            border-radius: 8px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: rgba(0,0,0,0.5);
+            color: #ffffff;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            background: #000000;
+            display: block;
+        }
+
+        .modal-body {
+            padding: 1.25em;
+        }
+
+        .modal-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .modal-year {
+            color: #666;
+            font-weight: normal;
+        }
+
+        .modal-summary {
+            font-size: 13px;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 0.8em;
+            white-space: pre-line;
+        }
+
+        .modal-tags {
+            margin-bottom: 1em;
+        }
+
+        .modal-tag-chip {
+            display: inline-block;
+            font-size: 11px;
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 4px;
+            color: #333;
+        }
+
+        .modal-notes {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #222;
+            white-space: pre-line;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 0.8em;
+            margin-top: 0.8em;
+        }
+
+        .modal-link {
+            display: inline-block;
+            margin-top: 1em;
+            font-size: 13px;
+            color: #00376b;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <div class="nav-back">
+            <a href="index.html">← go back to the beginning</a>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="profile-header">
+            <div class="avatar">TK</div>
+            <div class="profile-info">
+                <div class="profile-username">thomas_kerr</div>
+                <div class="profile-stats">
+                    <span><strong id="post-count">0</strong> posts</span>
+                    <span><strong>Archive</strong> catalog</span>
+                </div>
+                <div class="profile-bio">
+                    Sound, music, performance & composition archive.
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="filter-bar" id="filter-bar">
+            <button class="filter-pill active" onclick="filterCategory('ALL')">All</button>
+            <button class="filter-pill" onclick="filterCategory('Composition')">Composition</button>
+            <button class="filter-pill" onclick="filterCategory('Performance')">Performance</button>
+            <button class="filter-pill" onclick="filterCategory('Music Release')">Releases</button>
+            <button class="filter-pill" onclick="filterCategory('Theatre')">Theatre</button>
+            <button class="filter-pill" onclick="filterCategory('Installation')">Installation</button>
+        </div>
+
+        <!-- Instagram Grid -->
+        <div class="insta-grid" id="insta-grid">
+            <!-- Grid tiles render here dynamically -->
+        </div>
+    </main>
+
+    <!-- Modal Popup for Quick View -->
+    <div class="modal-backdrop" id="modal-backdrop" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        let allGigs = [];
+        let activeCategory = 'ALL';
+
+        async function loadArchive() {
+            const grid = document.getElementById('insta-grid');
+            const repoUrl = "https://api.github.com/repos/lolcopter3000/thkerr/contents/content/gigs";
+
+            try {
+                const response = await fetch(repoUrl);
+                if (!response.ok) throw new Error("No entries found");
+                
+                const files = await response.json();
+                const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
+                allGigs = await Promise.all(gigPromises);
+
+                // Sort newest first
+                allGigs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                document.getElementById('post-count').innerText = allGigs.length;
+                renderGrid(allGigs);
+            } catch (err) {
+                grid.innerHTML = `<p style="grid-column: span 3; padding: 2em; text-align: center; color: #888;">No archive items found.</p>`;
+            }
+        }
+
+        function getItemTags(gig) {
+            if (Array.isArray(gig.categories)) return gig.categories;
+            if (Array.isArray(gig.category)) return gig.category;
+            if (typeof gig.category === 'string') return [gig.category];
+            return ['Performance'];
+        }
+
+        function renderGrid(items) {
+            const grid = document.getElementById('insta-grid');
+            if (items.length === 0) {
+                grid.innerHTML = `<p style="grid-column: span 3; padding: 2em; text-align: center; color: #888;">No matching posts.</p>`;
+                return;
+            }
+
+            grid.innerHTML = items.map((gig, index) => {
+                const title = gig.title || "Untitled";
+
+                return `
+                    <div class="grid-tile" onclick="openModal(${index})">
+                        ${gig.image 
+                            ? `<img src="${gig.image}" alt="${title}">` 
+                            : `<div class="no-img-tile"><span>${title}</span></div>`
+                        }
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterCategory(cat) {
+            activeCategory = cat;
+
+            // Highlight active pill
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                const text = btn.innerText.toLowerCase();
+                const match = (cat === 'ALL' && text === 'all') || (text.includes(cat.toLowerCase()));
+                btn.classList.toggle('active', match);
+            });
+
+            const filtered = allGigs.filter(gig => {
+                const tags = getItemTags(gig);
+                return activeCategory === 'ALL' || tags.some(t => t.toLowerCase() === activeCategory.toLowerCase());
+            });
+
+            renderGrid(filtered);
+        }
+
+        function openModal(index) {
+            // Find item from current active array context
+            const filteredItems = allGigs.filter(gig => {
+                const tags = getItemTags(gig);
+                return activeCategory === 'ALL' || tags.some(t => t.toLowerCase() === activeCategory.toLowerCase());
+            });
+
+            const gig = filteredItems[index];
+            if (!gig) return;
+
+            const year = gig.date ? new Date(gig.date).getFullYear() : '';
+            const tags = getItemTags(gig);
+
+            const contentHtml = `
+                ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="modal-img">` : ''}
+                <div class="modal-body">
+                    <div class="modal-title">${gig.title} ${year ? `<span class="modal-year">(${year})</span>` : ''}</div>
+                    
+                    ${gig.summary ? `<div class="modal-summary">${gig.summary}</div>` : ''}
+                    
+                    <div class="modal-tags">
+                        ${tags.map(t => `<span class="modal-tag-chip">#${t.toLowerCase().replace(/\s+/g, '')}</span>`).join('')}
+                    </div>
+
+                    ${gig.location ? `<p style="font-size: 12px; color: #666; margin-bottom: 8px;"><strong>Location:</strong> ${gig.location}</p>` : ''}
+                    ${gig.notes ? `<div class="modal-notes">${gig.notes}</div>` : ''}
+                    ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank" class="modal-link">External Documentation / Link →</a>` : ''}
+                </div>
+            `;
+
+            document.getElementById('modal-content').innerHTML = contentHtml;
+            document.getElementById('modal-backdrop').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Stop background scrolling
+        }
+
+        function closeModal() {
+            document.getElementById('modal-backdrop').style.display = 'none';
+            document.body.style.overflow = ''; // Restore background scrolling
+        }
+
+        function closeModalOnBackdrop(e) {
+            if (e.target.classList.contains('modal-backdrop')) {
+                closeModal();
+            }
+        }
+
+        // Close on 'Esc' key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        loadArchive();
+    </script>
+</body>
+</html>
