@@ -9,117 +9,139 @@
         <style>
             * {
                 box-sizing: border-box;
-                font-family: 'Calibri', monospace, sans-serif;
             }
             body {
-                background-color: #FFFFFF;
-                color: #000000;
+                background-color: #ffffff;
+                color: #111111;
+                font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+                font-size: 16px;
+                line-height: 1.6;
                 margin: 0;
                 padding: 0;
-                font-size: 18px;
-                line-height: 1.6;
             }
             main {
-                width: 760px;
-                max-width: calc(100% - 2em);
-                margin: auto;
-                padding: 3em 1em;
+                width: 100%;
+                max-width: 650px;
+                margin: 0 auto;
+                padding: 3em 1.25em;
             }
             header {
-                text-align: center;
                 margin-bottom: 2em;
             }
             a {
-                color: black;
+                color: #000000;
                 text-decoration: underline;
             }
-            a:visited { color: #0A0436; }
-            a:hover { color: #555; }
+            a:hover {
+                color: #555555;
+            }
 
-            /* Filter Bar Styles */
+            /* Filter Controls - Clean, Unadorned Text Row */
             .controls {
-                background: #f4f4f4;
-                padding: 15px;
-                border: 1px solid #ddd;
-                margin-bottom: 2em;
-                font-size: 15px;
+                margin-bottom: 2.5em;
+                font-size: 14px;
+                border-bottom: 1px solid #111111;
+                padding-bottom: 1.25em;
             }
-            .filter-group {
+            .filter-row {
+                margin-bottom: 0.75em;
                 display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
                 align-items: center;
-                margin-bottom: 10px;
-            }
-            .filter-group:last-child {
-                margin-bottom: 0;
+                gap: 8px;
+                flex-wrap: wrap;
             }
             input[type="text"] {
-                padding: 5px 8px;
+                font-family: Georgia, serif;
                 font-size: 14px;
-                border: 1px solid #ccc;
+                padding: 4px 6px;
+                border: 1px solid #777777;
+                background: #ffffff;
+                outline: none;
                 flex-grow: 1;
             }
-            button.btn-filter {
-                background: #e0e0e0;
-                border: 1px solid #aaa;
-                padding: 4px 10px;
-                cursor: pointer;
-                font-size: 13px;
+            input[type="text"]:focus {
+                border-color: #000000;
             }
-            button.btn-filter.active {
-                background: #000;
-                color: #fff;
+            .btn-filter {
+                background: none;
+                border: none;
+                padding: 0;
+                font-family: Georgia, serif;
+                font-size: 14px;
+                color: #000000;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+            .btn-filter.active {
+                font-weight: bold;
+                text-decoration: none;
             }
 
-            /* Entry Items */
+            /* Archive Item List */
+            .work-list {
+                list-style-type: square;
+                padding-left: 1.2em;
+                margin: 0;
+            }
             .work-item {
-                border-bottom: 1px dotted #ccc;
-                padding-bottom: 1.5em;
                 margin-bottom: 1.5em;
+            }
+            .work-title {
+                font-size: 16px;
+                font-weight: normal;
             }
             .work-meta {
                 font-size: 14px;
-                color: #666;
-                text-transform: uppercase;
-                letter-spacing: 1px;
+                color: #555555;
             }
-            .work-title {
-                font-size: 20px;
-                font-weight: bold;
-                margin: 0.2em 0;
+            .work-notes {
+                font-size: 14px;
+                margin-top: 0.25em;
+                color: #222222;
             }
             .work-img {
-                max-width: 100%;
-                max-height: 250px;
                 display: block;
-                margin: 10px 0;
+                max-width: 100%;
+                max-height: 240px;
+                margin: 0.5em 0;
+            }
+
+            /* Responsive Adjustments */
+            @media (max-width: 600px) {
+                body {
+                    font-size: 15px;
+                }
+                main {
+                    padding: 1.5em 1em;
+                }
             }
         </style>
     </head>
     <body>
         <main>
             <header>
-                <a href="index.html" style="color:#b5723f">← go back to the beginning</a> 
+                <p><a href="index.html">← return home</a></p>
             </header>
 
-            <!-- Control / Archive Filter Bar -->
+            <!-- Minimalist Control Bar -->
             <div class="controls">
-                <div class="filter-group">
-                    <strong>SEARCH:</strong>
-                    <input type="text" id="search-input" placeholder="Type to filter works...">
+                <div class="filter-row">
+                    <span>search:</span>
+                    <input type="text" id="search-input" placeholder="filter works...">
                 </div>
-                <div class="filter-group" id="category-buttons">
-                    <strong>BROWSE:</strong>
-                    <button class="btn-filter active" onclick="filterCategory('ALL')">ALL</button>
-                    <button class="btn-filter" onclick="filterCategory('Performance')">PERFORMANCES</button>
-                    <button class="btn-filter" onclick="filterCategory('Music Release')">RELEASES</button>
-                    <button class="btn-filter" onclick="filterCategory('Theatre')">THEATRE</button>
+                <div class="filter-row" id="category-buttons">
+                    <span>browse:</span>
+                    <button class="btn-filter active" onclick="filterCategory('ALL')">all</button> /
+                    <button class="btn-filter" onclick="filterCategory('Performance')">performances</button> /
+                    <button class="btn-filter" onclick="filterCategory('Music Release')">releases</button> /
+                    <button class="btn-filter" onclick="filterCategory('Theatre')">theatre</button>
                 </div>
             </div>
 
-            <!-- Content Area -->
-            <div id="gigs-container">Loading archive...</div>
+            <!-- Content Container -->
+            <ul class="work-list" id="gigs-container">
+                <li>Loading archive...</li>
+            </ul>
         </main>
 
         <script>
@@ -143,38 +165,37 @@
 
                     renderGigs(allGigs);
                 } catch (err) {
-                    container.innerHTML = "No archive items found.";
+                    container.innerHTML = "<li>No archive items found.</li>";
                 }
             }
 
             function renderGigs(items) {
                 const container = document.getElementById('gigs-container');
                 if (items.length === 0) {
-                    container.innerHTML = "<em>No matching entries found.</em>";
+                    container.innerHTML = "<li><em>No matching entries found.</em></li>";
                     return;
                 }
 
                 container.innerHTML = items.map(gig => `
-                    <div class="work-item">
-                        <div class="work-meta">
-                            [${gig.category || 'WORK'}] — ${new Date(gig.date).toLocaleDateString('en-GB')}
-                        </div>
-                        <div class="work-title">
-                            <i>${gig.title}</i> ${gig.location ? `— ${gig.location}` : ''}
-                        </div>
+                    <li class="work-item">
+                        <span class="work-title">
+                            <i>${gig.title}</i>${gig.location ? `, ${gig.location}` : ''}
+                        </span> 
+                        <span class="work-meta">
+                            (${new Date(gig.date).getFullYear()})
+                        </span>
                         ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
-                        ${gig.notes ? `<p style="margin:0.5em 0;">${gig.notes}</p>` : ''}
-                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank">[link / details]</a>` : ''}
-                    </div>
+                        ${gig.notes ? `<div class="work-notes">${gig.notes}</div>` : ''}
+                        ${gig.ticket_link ? `<div><a href="${gig.ticket_link}" target="_blank" style="font-size:13px;">[link]</a></div>` : ''}
+                    </li>
                 `).join('');
             }
 
             function filterCategory(cat) {
                 activeCategory = cat;
                 
-                // Update active button styles
                 document.querySelectorAll('#category-buttons button').forEach(btn => {
-                    btn.classList.toggle('active', btn.innerText.includes(cat.toUpperCase()));
+                    btn.classList.toggle('active', btn.innerText.toLowerCase() === cat.toLowerCase());
                 });
 
                 applyFilters();
@@ -194,7 +215,6 @@
                 renderGigs(filtered);
             }
 
-            // Event listener for real-time search
             document.getElementById('search-input').addEventListener('input', applyFilters);
 
             loadGigs();
