@@ -29,10 +29,10 @@ collections:
         widget: "select"
         multiple: true
         options:
-          - { label: "composition", value: "Composition" }
-          - { label: "performance", value: "Performance" }
-          - { label: "music release", value: "Music Release" }
-          - { label: "theatre", value: "Theatre" }
+          - { label: "composition", value: "composition" }
+          - { label: "performance", value: "performance" }
+          - { label: "music release", value: "music Release" }
+          - { label: "theatre", value: "theatre" }
 
       # Image & Expandable Details
       - { label: "Image", name: "image", widget: "image", required: false }
