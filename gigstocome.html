@@ -4,144 +4,122 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Thomas Kerr - Works & Performances</title>
+        <title>Performances</title>
         
         <style>
             * {
                 box-sizing: border-box;
+                font-family: 'Calibri', monospace, sans-serif;
             }
             body {
-                background-color: #ffffff;
-                color: #111111;
-                font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-                font-size: 16px;
-                line-height: 1.6;
+                background-color: #FFFFFF;
+                color: #000000;
                 margin: 0;
                 padding: 0;
+                font-size: 18px;
+                line-height: 1.6;
             }
             main {
-                width: 100%;
-                max-width: 650px;
-                margin: 0 auto;
-                padding: 3em 1.25em;
+                width: 760px;
+                max-width: calc(100% - 2em);
+                margin: auto;
+                padding: 3em 1em;
             }
             header {
+                text-align: center;
                 margin-bottom: 2em;
             }
             a {
-                color: #000000;
+                color: black;
                 text-decoration: underline;
             }
-            a:hover {
-                color: #555555;
-            }
+            a:visited { color: #0A0436; }
+            a:hover { color: #555; }
 
-            /* Filter Controls - Clean, Unadorned Text Row */
+            /* Filter Bar Styles */
             .controls {
-                margin-bottom: 2.5em;
-                font-size: 14px;
-                border-bottom: 1px solid #111111;
-                padding-bottom: 1.25em;
+                background: #f4f4f4;
+                padding: 15px;
+                border: 1px solid #ddd;
+                margin-bottom: 2em;
+                font-size: 15px;
             }
-            .filter-row {
-                margin-bottom: 0.75em;
+            .filter-group {
                 display: flex;
-                align-items: center;
-                gap: 8px;
                 flex-wrap: wrap;
+                gap: 10px;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .filter-group:last-child {
+                margin-bottom: 0;
             }
             input[type="text"] {
-                font-family: Georgia, serif;
+                padding: 5px 8px;
                 font-size: 14px;
-                padding: 4px 6px;
-                border: 1px solid #777777;
-                background: #ffffff;
-                outline: none;
+                border: 1px solid #ccc;
                 flex-grow: 1;
             }
-            input[type="text"]:focus {
-                border-color: #000000;
-            }
-            .btn-filter {
-                background: none;
-                border: none;
-                padding: 0;
-                font-family: Georgia, serif;
-                font-size: 14px;
-                color: #000000;
-                text-decoration: underline;
+            button.btn-filter {
+                background: #e0e0e0;
+                border: 1px solid #aaa;
+                padding: 4px 10px;
                 cursor: pointer;
+                font-size: 13px;
             }
-            .btn-filter.active {
-                font-weight: bold;
-                text-decoration: none;
+            button.btn-filter.active {
+                background: #000;
+                color: #fff;
             }
 
-            /* Archive Item List */
-            .work-list {
-                list-style-type: square;
-                padding-left: 1.2em;
-                margin: 0;
-            }
+            /* Entry Items */
             .work-item {
+                border-bottom: 1px dotted #ccc;
+                padding-bottom: 1.5em;
                 margin-bottom: 1.5em;
-            }
-            .work-title {
-                font-size: 16px;
-                font-weight: normal;
             }
             .work-meta {
                 font-size: 14px;
-                color: #555555;
+                color: #666;
+                text-transform: uppercase;
+                letter-spacing: 1px;
             }
-            .work-notes {
-                font-size: 14px;
-                margin-top: 0.25em;
-                color: #222222;
+            .work-title {
+                font-size: 20px;
+                font-weight: bold;
+                margin: 0.2em 0;
             }
             .work-img {
-                display: block;
                 max-width: 100%;
-                max-height: 240px;
-                margin: 0.5em 0;
-            }
-
-            /* Responsive Adjustments */
-            @media (max-width: 600px) {
-                body {
-                    font-size: 15px;
-                }
-                main {
-                    padding: 1.5em 1em;
-                }
+                max-height: 250px;
+                display: block;
+                margin: 10px 0;
             }
         </style>
     </head>
     <body>
         <main>
             <header>
-                <p><a href="index.html">← return home</a></p>
+                <a href="index.html" style="color:#b5723f">← go back to the beginning</a> 
             </header>
 
-            <!-- Minimalist Control Bar -->
+            <!-- Control / Archive Filter Bar -->
             <div class="controls">
-                <div class="filter-row">
-                    <span>search:</span>
-                    <input type="text" id="search-input" placeholder="filter works...">
+                <div class="filter-group">
+                    <strong>SEARCH:</strong>
+                    <input type="text" id="search-input" placeholder="Type to filter works...">
                 </div>
-                <div class="filter-row" id="category-buttons">
-                    <span>browse:</span>
-                    <button class="btn-filter active" onclick="filterCategory('ALL')">all</button> /
-                    <button class="btn-filter" onclick="filterCategory('Performance')">performances</button> /
-                    <button class="btn-filter" onclick="filterCategory('Music Release')">releases</button> /
-                    <button class="btn-filter" onclick="filterCategory('Theatre')">theatre</button>
+                <div class="filter-group" id="category-buttons">
+                    <strong>BROWSE:</strong>
+                    <button class="btn-filter active" onclick="filterCategory('ALL')">ALL</button>
+                    <button class="btn-filter" onclick="filterCategory('Performance')">PERFORMANCES</button>
+                    <button class="btn-filter" onclick="filterCategory('Music Release')">RELEASES</button>
+                    <button class="btn-filter" onclick="filterCategory('Theatre')">THEATRE</button>
                 </div>
             </div>
 
-            <!-- Content Container -->
-            <ul class="work-list" id="gigs-container">
-                <li>Loading archive...</li>
-            </ul>
+            <!-- Content Area -->
+            <div id="gigs-container">Loading archive...</div>
         </main>
 
         <script>
@@ -165,37 +143,38 @@
 
                     renderGigs(allGigs);
                 } catch (err) {
-                    container.innerHTML = "<li>No archive items found.</li>";
+                    container.innerHTML = "No archive items found.";
                 }
             }
 
             function renderGigs(items) {
                 const container = document.getElementById('gigs-container');
                 if (items.length === 0) {
-                    container.innerHTML = "<li><em>No matching entries found.</em></li>";
+                    container.innerHTML = "<em>No matching entries found.</em>";
                     return;
                 }
 
                 container.innerHTML = items.map(gig => `
-                    <li class="work-item">
-                        <span class="work-title">
-                            <i>${gig.title}</i>${gig.location ? `, ${gig.location}` : ''}
-                        </span> 
-                        <span class="work-meta">
-                            (${new Date(gig.date).getFullYear()})
-                        </span>
+                    <div class="work-item">
+                        <div class="work-meta">
+                            [${gig.category || 'WORK'}] — ${new Date(gig.date).toLocaleDateString('en-GB')}
+                        </div>
+                        <div class="work-title">
+                            <i>${gig.title}</i> ${gig.location ? `— ${gig.location}` : ''}
+                        </div>
                         ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
-                        ${gig.notes ? `<div class="work-notes">${gig.notes}</div>` : ''}
-                        ${gig.ticket_link ? `<div><a href="${gig.ticket_link}" target="_blank" style="font-size:13px;">[link]</a></div>` : ''}
-                    </li>
+                        ${gig.notes ? `<p style="margin:0.5em 0;">${gig.notes}</p>` : ''}
+                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank">[link / details]</a>` : ''}
+                    </div>
                 `).join('');
             }
 
             function filterCategory(cat) {
                 activeCategory = cat;
                 
+                // Update active button styles
                 document.querySelectorAll('#category-buttons button').forEach(btn => {
-                    btn.classList.toggle('active', btn.innerText.toLowerCase() === cat.toLowerCase());
+                    btn.classList.toggle('active', btn.innerText.includes(cat.toUpperCase()));
                 });
 
                 applyFilters();
@@ -215,6 +194,7 @@
                 renderGigs(filtered);
             }
 
+            // Event listener for real-time search
             document.getElementById('search-input').addEventListener('input', applyFilters);
 
             loadGigs();
