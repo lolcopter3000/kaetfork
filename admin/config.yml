@@ -21,7 +21,7 @@ collections:
       - { label: "End Date (Optional for date ranges)", name: "end_date", widget: "datetime", format: "YYYY-MM-DD", required: false }
       
       # Short 1-2 line summary (appears under title in 12px italics)
-      - { label: "Short Summary / Instrumentation", name: "summary", widget: "string", required: false }
+      - { label: "10w summary", name: "summary", widget: "string", required: false }
 
       # MULTIPLE TAGS SELECTOR (Includes Composition)
       - label: "Categories / Tags"
@@ -33,8 +33,6 @@ collections:
           - { label: "Performance", value: "Performance" }
           - { label: "Music Release", value: "Music Release" }
           - { label: "Theatre", value: "Theatre" }
-          - { label: "Installation / Art", value: "Installation" }
-          - { label: "Other", value: "Other" }
 
       # Image & Expandable Details
       - { label: "Image / Poster", name: "image", widget: "image", required: false }
