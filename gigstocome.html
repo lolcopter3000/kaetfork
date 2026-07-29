@@ -20,7 +20,7 @@
                 line-height: 1.5;
             }
 
-            /* Narrow Reading Width */
+            /* Container width */
             main {
                 width: 100%;
                 max-width: 650px;
@@ -87,11 +87,19 @@
                 text-decoration: underline;
             }
 
-            /* Work Entry Item */
+            /* Work Entry Item Structure */
             .work-item {
                 border-bottom: 1px dotted #ccc;
                 padding-bottom: 1.25em;
                 margin-bottom: 1.25em;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .work-content {
+                flex: 1;
             }
 
             .work-header {
@@ -106,12 +114,16 @@
                 color: #555555;
             }
 
+            /* Short summary: on new line, 12px, italicised gray matching tags */
             .work-summary {
+                display: block;
                 color: #555555;
                 font-style: italic;
+                font-size: 12px;
+                margin-top: 2px;
             }
 
-            /* Clickable Tags List per Entry */
+            /* Clickable Tags List */
             .entry-tags {
                 margin: 0.4em 0;
                 font-size: 12px;
@@ -127,7 +139,20 @@
                 text-decoration: underline;
             }
 
-            /* Native Expandable Dropdown */
+            /* Compact Right-Side Thumbnail Image */
+            .work-thumb-wrapper {
+                flex-shrink: 0;
+            }
+            .work-thumb {
+                width: 55px;
+                height: 55px;
+                object-fit: cover;
+                border: 1px solid #eee;
+                border-radius: 2px;
+                display: block;
+            }
+
+            /* Expandable Dropdown */
             details {
                 margin-top: 0.5em;
                 font-size: 14px;
@@ -144,17 +169,24 @@
             .dropdown-content {
                 padding: 0.8em 0 0 0;
             }
-            .work-img {
+            .work-full-img {
                 max-width: 100%;
-                max-height: 250px;
+                max-height: 280px;
                 display: block;
                 margin: 10px 0;
             }
 
-            @media (max-width: 600px) {
-                body { font-size: 14px; }
-                main { padding: 1.25em 1em; }
-                .controls { padding: 10px; }
+            /* Mobile Responsiveness */
+            @media (max-width: 500px) {
+                .work-item {
+                    flex-direction: column-reverse;
+                    align-items: flex-start;
+                    gap: 10px;
+                }
+                .work-thumb {
+                    width: 45px;
+                    height: 45px;
+                }
             }
         </style>
     </head>
@@ -173,6 +205,7 @@
                 <div class="filter-group" id="category-buttons">
                     <strong>BROWSE:</strong>
                     <button class="tag-btn active" onclick="filterCategory('ALL')">[all]</button>
+                    <button class="tag-btn" onclick="filterCategory('Composition')">[composition]</button>
                     <button class="tag-btn" onclick="filterCategory('Performance')">[performances]</button>
                     <button class="tag-btn" onclick="filterCategory('Music Release')">[releases]</button>
                     <button class="tag-btn" onclick="filterCategory('Theatre')">[theatre]</button>
@@ -209,7 +242,6 @@
                 }
             }
 
-            // Normalizes single string or array into a clean array of tags
             function getItemTags(gig) {
                 if (Array.isArray(gig.categories)) return gig.categories;
                 if (Array.isArray(gig.category)) return gig.category;
@@ -228,7 +260,6 @@
                     const year = new Date(gig.date).getFullYear();
                     const tags = getItemTags(gig);
 
-                    // Build HTML for tags: [all] plus each tag for this work
                     const tagsHtml = `
                         <span class="entry-tag-link" onclick="filterCategory('ALL')">[all]</span>
                         ${tags.map(t => `<span class="entry-tag-link" onclick="filterCategory('${t}')">[${t.toLowerCase()}]</span>`).join('')}
@@ -236,29 +267,40 @@
 
                     return `
                         <div class="work-item">
-                            <!-- Title, Year, and Italicised Summary -->
-                            <div class="work-header">
-                                <span class="work-title">${gig.title}</span> 
-                                <span class="work-meta">(${year})</span>
-                                ${gig.summary ? `<span class="work-summary"> — ${gig.summary}</span>` : ''}
+                            <div class="work-content">
+                                <!-- Title and Year -->
+                                <div class="work-header">
+                                    <span class="work-title">${gig.title}</span> 
+                                    <span class="work-meta">(${year})</span>
+                                </div>
+
+                                <!-- Summary on separate line in 12px italics -->
+                                ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
+
+                                <!-- Clickable Tags -->
+                                <div class="entry-tags">
+                                    ${tagsHtml}
+                                </div>
+
+                                <!-- Expandable Dropdown -->
+                                ${(gig.notes || gig.image || gig.ticket_link || gig.location) ? `
+                                    <details>
+                                        <summary>[more info / details]</summary>
+                                        <div class="dropdown-content">
+                                            ${gig.location ? `<p style="margin: 0 0 0.5em 0;"><strong>Venue / Location:</strong> ${gig.location}</p>` : ''}
+                                            ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-full-img">` : ''}
+                                            ${gig.notes ? `<p style="margin: 0.5em 0;">${gig.notes}</p>` : ''}
+                                            ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank" style="font-size: 13px;">[link / documentation]</a>` : ''}
+                                        </div>
+                                    </details>
+                                ` : ''}
                             </div>
 
-                            <!-- Clickable Tags -->
-                            <div class="entry-tags">
-                                ${tagsHtml}
-                            </div>
-
-                            <!-- Expandable Dropdown with Detailed Info -->
-                            ${(gig.notes || gig.image || gig.ticket_link || gig.location) ? `
-                                <details>
-                                    <summary>[more info / details]</summary>
-                                    <div class="dropdown-content">
-                                        ${gig.location ? `<p style="margin: 0 0 0.5em 0;"><strong>Venue / Location:</strong> ${gig.location}</p>` : ''}
-                                        ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
-                                        ${gig.notes ? `<p style="margin: 0.5em 0;">${gig.notes}</p>` : ''}
-                                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank" style="font-size: 13px;">[link / documentation]</a>` : ''}
-                                    </div>
-                                </details>
+                            <!-- Small Right-Aligned Thumbnail -->
+                            ${gig.image ? `
+                                <div class="work-thumb-wrapper">
+                                    <img src="${gig.image}" alt="${gig.title}" class="work-thumb">
+                                </div>
                             ` : ''}
                         </div>
                     `;
@@ -268,7 +310,6 @@
             function filterCategory(cat) {
                 activeCategory = cat;
                 
-                // Highlight active button in filter bar
                 document.querySelectorAll('#category-buttons button').forEach(btn => {
                     const btnText = btn.innerText.replace('[', '').replace(']', '').toLowerCase();
                     const targetText = cat.toLowerCase();
