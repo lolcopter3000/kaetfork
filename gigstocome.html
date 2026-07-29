@@ -95,37 +95,64 @@
             <a href="index.html" style="color:#b5723f">go back to the beginning</a> 
         </header>
 
-   <main>
-  <h2>Upcoming Performances</h2>
-  <div id="gigs-list">Loading gigs...</div>
+  <main>
+    <div id="gigs-container">Loading performances...</div>
 
-  <script>
-    async function loadGigs() {
-      const container = document.getElementById('gigs-list');
-      
-      // In production, fetch index/manifest or folder items
-      // Example structure of rendering fetched JSON data:
-      try {
-        // Fetch your gig json files from /content/gigs/
-        // Here's how a gig item looks when rendered:
-        /*
-        const gigHTML = `
-          <div style="margin-bottom: 2em; border-bottom: 1px solid #ccc; padding-bottom: 1em;">
-            ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" style="max-height: 200px; display: block; margin-bottom: 10px;">` : ''}
-            <strong>${new Date(gig.date).toLocaleDateString()}</strong> - <i>${gig.title}</i> at ${gig.location}
-            ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank">[tickets]</a>` : ''}
-            ${gig.notes ? `<p>${gig.notes}</p>` : ''}
-          </div>
-        `;
-        */
-      } catch (err) {
-        container.innerHTML = "Unable to load performances at this time.";
-      }
-    }
-    loadGigs();
-  </script>
+    <script type="module">
+        import { run } from './play.core/src/run.js'
+        import * as program from './name.js'
+        run(program, { element : document.querySelector('pre') }).then(function(e){
+            console.log(e)
+        }).catch(function(e) {
+            console.warn(e.message)
+            console.log(e.error)
+        })
+    </script>
+
+    <script>
+        async function loadGigs() {
+            const container = document.getElementById('gigs-container');
+            
+            // Update this URL with your GitHub username and repo name!
+            const repoUrl = "https://api.github.com/repos/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME/contents/content/gigs";
+
+            try {
+                const response = await fetch(repoUrl);
+                if (!response.ok) throw new Error("No gigs found yet");
+                
+                const files = await response.json();
+                
+                // Fetch each JSON file contents
+                const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
+                const gigs = await Promise.all(gigPromises);
+
+                // Sort gigs by date (newest first)
+                gigs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                if (gigs.length === 0) {
+                    container.innerHTML = "No upcoming performances listed.";
+                    return;
+                }
+
+                // Render HTML
+                container.innerHTML = gigs.map(gig => `
+                    <div style="margin-bottom: 2em;">
+                        ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" style="display:block; margin-bottom: 0.5em; max-height: 200px;"><br>` : ''}
+                        <strong>${new Date(gig.date).toLocaleDateString('en-GB')}</strong>, 
+                        <i>${gig.title}</i>, ${gig.location}.
+                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank">[tickets]</a>` : ''}
+                        ${gig.notes ? `<p style="margin-top: 0.5em;">${gig.notes}</p>` : ''}
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                container.innerHTML = "No upcoming performances found.";
+            }
+        }
+
+        loadGigs();
+    </script>
 </main>
-
         <footer>
             <p id="time"></p> 
         </footer>
