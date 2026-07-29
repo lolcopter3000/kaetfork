@@ -8,7 +8,7 @@ public_folder: "/uploads"
 
 collections:
   - name: "gigs"
-    label: "Archive & Performances"
+    label: "work"
     folder: "content/gigs"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -29,13 +29,13 @@ collections:
         widget: "select"
         multiple: true
         options:
-          - { label: "Composition", value: "Composition" }
-          - { label: "Performance", value: "Performance" }
-          - { label: "Music Release", value: "Music Release" }
-          - { label: "Theatre", value: "Theatre" }
+          - { label: "composition", value: "Composition" }
+          - { label: "performance", value: "Performance" }
+          - { label: "music release", value: "Music Release" }
+          - { label: "theatre", value: "Theatre" }
 
       # Image & Expandable Details
-      - { label: "Image / Poster", name: "image", widget: "image", required: false }
-      - { label: "Venue / Location", name: "location", widget: "string", required: false }
-      - { label: "Detailed Notes / Archive Info", name: "notes", widget: "text", required: false }
-      - { label: "External Link / Audio / Documentation", name: "ticket_link", widget: "string", required: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Where", name: "location", widget: "string", required: false }
+      - { label: "More info", name: "notes", widget: "text", required: false }
+      - { label: "Link", name: "ticket_link", widget: "string", required: false }
