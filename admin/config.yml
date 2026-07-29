@@ -15,7 +15,10 @@ collections:
     format: "json"
     fields:
       - { label: "Title / Work Name", name: "title", widget: "string" }
-      - { label: "Year / Date", name: "date", widget: "datetime" }
+      
+      # DATE & OPTIONAL DATE RANGE
+      - { label: "Start Date / Date", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "End Date (Optional for date ranges)", name: "end_date", widget: "datetime", format: "YYYY-MM-DD", required: false }
       
       # Short 1-2 line summary (appears under title in 12px italics)
       - { label: "Short Summary / Instrumentation", name: "summary", widget: "string", required: false }
