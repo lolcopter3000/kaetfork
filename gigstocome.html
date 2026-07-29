@@ -1,411 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thomas Kerr</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Courier New', Courier, ui-monospace, monospace;
-        }
-        body {
-            background-color: #ffffff;
-            color: #000000;
-            margin: 0;
-            padding: 0;
-            font-size: 13px;
-            line-height: 1.5;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        /* Container width & mobile padding */
-        main {
-            width: 100%;
-            max-width: 650px;
-            margin: 0 auto;
-            padding: 2em 1.25em;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 2em;
-            font-size: 13px;
-        }
-
-        a {
-            color: #000000;
-            text-decoration: underline;
-        }
-        a:visited { color: #000000; }
-        a:hover { color: #555555; }
-
-        /* Filter & Control Bar */
-        .controls {
-            background: #f9f9f9;
-            padding: 12px 14px;
-            border: 1px solid #ccc;
-            margin-bottom: 2em;
-            font-size: 12px;
-        }
-        .filter-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .filter-group:last-child {
-            margin-bottom: 0;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thomas Kerr - Works & Performances</title>
         
-        input[type="text"] {
-            padding: 6px 10px;
-            font-size: 12px;
-            border: 1px solid #ccc;
-            flex-grow: 1;
-            width: 100%;
-            font-family: inherit;
-            border-radius: 0;
-            background: #fff;
-            -webkit-appearance: none;
-        }
-        
-        /* Bracket Button Styling */
-        .btn-tag {
-            background: #ffffff;
-            border: 1px solid #333333;
-            color: #000000;
-            cursor: pointer;
-            padding: 2px 7px;
-            font-size: 11px;
-            text-decoration: none;
-            font-family: inherit;
-            display: inline-block;
-            margin-bottom: 2px;
-        }
-        .btn-tag:hover {
-            background: #000000;
-            color: #ffffff;
-        }
-        .btn-tag.active {
-            background: #000000;
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        /* Work Entry Item Structure */
-        .work-item {
-            border-bottom: 1px dotted #888;
-            padding-bottom: 1.25em;
-            margin-bottom: 1.25em;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .work-content {
-            flex: 1;
-            min-width: 0; /* Prevents flex overflow on mobile */
-        }
-
-        .work-header {
-            font-size: 13px;
-            line-height: 1.4;
-        }
-
-        .work-title {
-            font-weight: bold;
-        }
-
-        .work-meta {
-            color: #555555;
-        }
-
-        /* Short summary */
-        .work-summary {
-            display: block;
-            color: #444444;
-            font-size: 11px;
-            margin-top: 4px;
-            white-space: pre-line;
-            word-wrap: break-word;
-        }
-
-        /* Inline Category Tags */
-        .entry-tags {
-            margin: 0.5em 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        /* Compact Thumbnail Image */
-        .work-thumb-wrapper {
-            flex-shrink: 0;
-        }
-        .work-thumb {
-            width: 55px;
-            height: 55px;
-            object-fit: cover;
-            border: 1px solid #ccc;
-            display: block;
-        }
-
-        /* Expandable Dropdown */
-        details {
-            margin-top: 0.5em;
-            font-size: 12px;
-        }
-        summary {
-            cursor: pointer;
-            color: #000000;
-            font-size: 11px;
-            user-select: none;
-        }
-        summary:hover {
-            text-decoration: underline;
-        }
-        
-        .dropdown-content {
-            padding: 0.8em 0 0 0;
-            white-space: pre-line;
-            word-wrap: break-word;
-        }
-        .dropdown-content p {
-            margin: 0.25em 0;
-        }
-
-        .work-full-img {
-            max-width: 100%;
-            max-height: 280px;
-            display: block;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 500px) {
-            main {
-                padding: 1.5em 1em;
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family: 'Calibri', monospace, sans-serif;
             }
-            .work-item {
-                flex-direction: column-reverse;
-                align-items: flex-start;
+            body {
+                background-color: #FFFFFF;
+                color: #000000;
+                margin: 0;
+                padding: 0;
+                font-size: 18px;
+                line-height: 1.6;
+                -webkit-text-size-adjust: 100%;
+            }
+            main {
+                width: 760px;
+                max-width: calc(100% - 2em);
+                margin: auto;
+                padding: 3em 1em;
+            }
+            header {
+                text-align: center;
+                margin-bottom: 2em;
+            }
+            a {
+                color: black;
+                text-decoration: underline;
+            }
+            a:visited { color: #0A0436; }
+            a:hover { color: #555; }
+
+            /* Filter Bar Styles */
+            .controls {
+                background: #f4f4f4;
+                padding: 15px;
+                border: 1px solid #ddd;
+                margin-bottom: 2em;
+                font-size: 15px;
+            }
+            .filter-group {
+                display: flex;
+                flex-wrap: wrap;
                 gap: 10px;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .filter-group:last-child {
+                margin-bottom: 0;
+            }
+            input[type="text"] {
+                padding: 5px 8px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                flex-grow: 1;
+                width: 100%;
+            }
+            button.btn-filter {
+                background: #e0e0e0;
+                border: 1px solid #aaa;
+                padding: 4px 10px;
+                cursor: pointer;
+                font-size: 13px;
+            }
+            button.btn-filter.active {
+                background: #000;
+                color: #fff;
+            }
+
+            /* Entry Items Layout */
+            .work-item {
+                border-bottom: 1px dotted #ccc;
+                padding-bottom: 1.5em;
+                margin-bottom: 1.5em;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .work-content {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .work-meta {
+                font-size: 14px;
+                color: #666;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .work-title {
+                font-size: 20px;
+                font-weight: bold;
+                margin: 0.2em 0;
+            }
+
+            .work-summary {
+                display: block;
+                color: #444;
+                font-size: 16px;
+                margin-top: 4px;
+                white-space: pre-line;
+                word-wrap: break-word;
+            }
+
+            /* Inline Clickable Tags */
+            .entry-tags {
+                margin: 0.4em 0;
+                font-size: 14px;
+            }
+            .entry-tag-link {
+                color: #555;
+                cursor: pointer;
+                text-decoration: underline;
+                margin-right: 8px;
+            }
+            .entry-tag-link:hover {
+                color: #000;
+            }
+
+            /* Compact Thumbnail Image */
+            .work-thumb-wrapper {
+                flex-shrink: 0;
             }
             .work-thumb {
-                width: 45px;
-                height: 45px;
+                width: 65px;
+                height: 65px;
+                object-fit: cover;
+                border: 1px solid #ccc;
+                display: block;
             }
-        }
-    </style>
-</head>
-<body>
 
-    <main>
-        <header>
-            <p><a href="index.html">← go back to the beginning</a></p>
-        </header>
+            /* Expandable Dropdown Details */
+            details {
+                margin-top: 0.5em;
+                font-size: 15px;
+            }
+            summary {
+                cursor: pointer;
+                color: #000;
+                font-size: 14px;
+                user-select: none;
+            }
+            summary:hover {
+                text-decoration: underline;
+            }
+            .dropdown-content {
+                padding: 0.8em 0 0 0;
+                white-space: pre-line;
+                word-wrap: break-word;
+            }
+            .dropdown-content p {
+                margin: 0.25em 0;
+            }
+            .work-full-img {
+                max-width: 100%;
+                max-height: 280px;
+                display: block;
+                margin: 10px 0;
+                border: 1px solid #ccc;
+            }
 
-        <!-- Controls / Search Bar -->
-        <div class="controls">
-            <div class="filter-group">
-                <input 
-                    type="text" 
-                    id="search-input" 
-                    placeholder="search for a title, category, year..." 
-                    oninput="applyFilters()"
-                >
+            /* Mobile Adjustments */
+            @media (max-width: 600px) {
+                .work-item {
+                    flex-direction: column-reverse;
+                    align-items: flex-start;
+                    gap: 10px;
+                }
+                .work-thumb {
+                    width: 55px;
+                    height: 55px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <header>
+                <a href="index.html" style="color:#b5723f">← go back to the beginning</a> 
+            </header>
+
+            <!-- Control / Archive Filter Bar -->
+            <div class="controls">
+                <div class="filter-group">
+                    <strong>SEARCH:</strong>
+                    <input type="text" id="search-input" placeholder="Type title, category, year...">
+                </div>
+                <div class="filter-group" id="category-buttons">
+                    <strong>BROWSE:</strong>
+                    <button class="btn-filter active" onclick="filterCategory('ALL')">ALL</button>
+                    <button class="btn-filter" onclick="filterCategory('Composition')">COMPOSITION</button>
+                    <button class="btn-filter" onclick="filterCategory('Performance')">PERFORMANCES</button>
+                    <button class="btn-filter" onclick="filterCategory('Music Release')">RELEASES</button>
+                    <button class="btn-filter" onclick="filterCategory('Theatre')">THEATRE</button>
+                    <button class="btn-filter" onclick="filterCategory('Installation')">INSTALLATION</button>
+                </div>
             </div>
-            <div class="filter-group" id="category-pills">
-                <span style="font-size: 11px; margin-right: 4px;">BROWSE:</span>
-                <button class="btn-tag active" onclick="filterCategory('ALL')">[all]</button>
-                <button class="btn-tag" onclick="filterCategory('Composition')">[composition]</button>
-                <button class="btn-tag" onclick="filterCategory('Performance')">[performance]</button>
-                <button class="btn-tag" onclick="filterCategory('Music Release')">[releases]</button>
-                <button class="btn-tag" onclick="filterCategory('Theatre')">[theatre]</button>
-                <button class="btn-tag" onclick="filterCategory('Installation')">[installation]</button>
-            </div>
-        </div>
 
-        <!-- Work Entries Stream -->
-        <div id="works-container">
-            <p style="color: #666;">Loading archive...</p>
-        </div>
-    </main>
+            <!-- Content Area -->
+            <div id="gigs-container">Loading archive...</div>
+        </main>
 
-    <script>
-        let allGigs = [];
-        let selectedCategory = 'ALL';
+        <script>
+            let allGigs = [];
+            let activeCategory = 'ALL';
 
-        async function fetchGigs() {
-            const repoUrl = "https://api.github.com/repos/lolcopter3000/thkerr/contents/content/gigs";
-            const container = document.getElementById('works-container');
+            async function loadGigs() {
+                const container = document.getElementById('gigs-container');
+                const repoUrl = "https://api.github.com/repos/lolcopter3000/thkerr/contents/content/gigs";
 
-            try {
-                const response = await fetch(repoUrl);
-                if (!response.ok) throw new Error("Could not fetch entries.");
+                try {
+                    const response = await fetch(repoUrl);
+                    if (!response.ok) throw new Error("No works found");
+                    
+                    const files = await response.json();
+                    
+                    // Filter exclusively for JSON files to prevent hidden file errors
+                    const jsonFiles = files.filter(file => file.name.endsWith('.json'));
+                    const gigPromises = jsonFiles.map(file => fetch(file.download_url).then(res => res.json()));
+                    allGigs = await Promise.all(gigPromises);
+
+                    // Safe Date Sorting (newest start date first)
+                    allGigs.sort((a, b) => {
+                        const timeA = a.date ? new Date(a.date).getTime() : 0;
+                        const timeB = b.date ? new Date(b.date).getTime() : 0;
+                        return timeB - timeA;
+                    });
+
+                    applyFilters();
+                } catch (err) {
+                    container.innerHTML = "No archive items found.";
+                }
+            }
+
+            function getItemCategories(gig) {
+                let cats = [];
+                if (Array.isArray(gig.categories)) cats = gig.categories;
+                else if (Array.isArray(gig.category)) cats = gig.category;
+                else if (typeof gig.category === 'string') cats = [gig.category];
+                else cats = ['Performance'];
+                return cats;
+            }
+
+            function formatEntryDate(gig) {
+                if (!gig || !gig.date) return '';
+                const startDate = new Date(gig.date);
+                if (isNaN(startDate.getTime())) return '';
+
+                const startYear = startDate.getFullYear();
                 
-                const files = await response.json();
+                if (gig.end_date) {
+                    const endDate = new Date(gig.end_date);
+                    if (!isNaN(endDate.getTime())) {
+                        const endYear = endDate.getFullYear();
+                        return startYear === endYear ? `${startYear}` : `${startYear}–${endYear}`;
+                    }
+                }
                 
-                // Only process .json files to avoid crash on hidden system files
-                const jsonFiles = files.filter(file => file.name.endsWith('.json'));
-                const gigPromises = jsonFiles.map(file => fetch(file.download_url).then(res => res.json()));
-                allGigs = await Promise.all(gigPromises);
+                return `${startYear}`;
+            }
 
-                // Safe Date Sorting (newest start date first)
-                allGigs.sort((a, b) => {
-                    const timeA = a.date ? new Date(a.date).getTime() : 0;
-                    const timeB = b.date ? new Date(b.date).getTime() : 0;
-                    return timeB - timeA;
+            function renderGigs(items) {
+                const container = document.getElementById('gigs-container');
+                if (items.length === 0) {
+                    container.innerHTML = "<em>No matching entries found.</em>";
+                    return;
+                }
+
+                container.innerHTML = items.map(gig => {
+                    const title = gig.title || "Untitled";
+                    const dateDisplay = formatEntryDate(gig);
+                    const categories = getItemCategories(gig);
+                    const primaryCat = categories[0] || 'WORK';
+                    const visibleCategories = categories.filter(c => c.toLowerCase() !== 'all');
+
+                    return `
+                        <div class="work-item">
+                            <div class="work-content">
+                                <div class="work-meta">
+                                    [${primaryCat.toUpperCase()}] — ${dateDisplay}
+                                </div>
+                                <div class="work-title">
+                                    <i>${title}</i> ${gig.location ? `— ${gig.location}` : ''}
+                                </div>
+                                
+                                ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
+
+                                ${visibleCategories.length > 0 ? `
+                                    <div class="entry-tags">
+                                        ${visibleCategories.map(cat => `
+                                            <span class="entry-tag-link" onclick="filterCategory('${cat}')">#${cat.toLowerCase()}</span>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+
+                                <details>
+                                    <summary>[+] details / notes</summary>
+                                    <div class="dropdown-content">
+                                        ${gig.image ? `<img src="${gig.image}" alt="${title}" class="work-full-img">` : ''}
+                                        ${gig.location ? `<p><strong>Location:</strong> ${gig.location}</p>` : ''}
+                                        ${gig.notes ? `<p>${gig.notes}</p>` : ''}
+                                        ${gig.ticket_link ? `<p><a href="${gig.ticket_link}" target="_blank">Documentation / External Link →</a></p>` : ''}
+                                    </div>
+                                </details>
+                            </div>
+
+                            ${gig.image ? `
+                                <div class="work-thumb-wrapper">
+                                    <img src="${gig.image}" alt="${title}" class="work-thumb">
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function filterCategory(cat) {
+                activeCategory = cat;
+                
+                document.querySelectorAll('#category-buttons button').forEach(btn => {
+                    btn.classList.toggle('active', btn.innerText.includes(cat.toUpperCase()));
                 });
 
                 applyFilters();
-            } catch (err) {
-                container.innerHTML = `<p style="color: #888;">No works currently found in the archive.</p>`;
             }
-        }
 
-        function getItemCategories(gig) {
-            let cats = [];
-            if (Array.isArray(gig.categories)) cats = gig.categories;
-            else if (Array.isArray(gig.category)) cats = gig.category;
-            else if (typeof gig.category === 'string') cats = [gig.category];
-            else cats = ['Performance'];
-
-            return cats;
-        }
-
-        function formatEntryDate(gig) {
-            if (!gig || !gig.date) return '';
-            const startDate = new Date(gig.date);
-            if (isNaN(startDate.getTime())) return '';
-
-            const startYear = startDate.getFullYear();
-            
-            if (gig.end_date) {
-                const endDate = new Date(gig.end_date);
-                if (!isNaN(endDate.getTime())) {
-                    const endYear = endDate.getFullYear();
-                    return startYear === endYear ? `${startYear}` : `${startYear}–${endYear}`;
-                }
-            }
-            
-            return `${startYear}`;
-        }
-
-        function filterCategory(cat) {
-            selectedCategory = cat;
-            
-            document.querySelectorAll('#category-pills .btn-tag').forEach(btn => {
-                const text = btn.innerText.replace('[', '').replace(']', '').toLowerCase().trim();
-                const isMatch = (cat === 'ALL' && text === 'all') || text.includes(cat.toLowerCase());
-                btn.classList.toggle('active', isMatch);
-            });
-
-            applyFilters();
-        }
-
-        function applyFilters() {
-            const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
-
-            const filtered = allGigs.filter(gig => {
-                const categories = getItemCategories(gig);
+            function applyFilters() {
+                const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
                 
-                // Category match
-                const categoryMatch = (selectedCategory === 'ALL') || 
-                    categories.some(c => c.toLowerCase() === selectedCategory.toLowerCase());
+                const filtered = allGigs.filter(gig => {
+                    const categories = getItemCategories(gig);
+                    
+                    const matchesCategory = (activeCategory === 'ALL' || 
+                        categories.some(c => c.toLowerCase() === activeCategory.toLowerCase()));
 
-                if (!categoryMatch) return false;
+                    if (!matchesCategory) return false;
+                    if (!searchTerm) return true;
 
-                // If search input is empty, return category match
-                if (!searchVal) return true;
+                    const startYear = gig.date && !isNaN(new Date(gig.date).getTime()) 
+                        ? new Date(gig.date).getFullYear().toString() 
+                        : '';
+                    const endYear = gig.end_date && !isNaN(new Date(gig.end_date).getTime()) 
+                        ? new Date(gig.end_date).getFullYear().toString() 
+                        : '';
+                    const formattedDateStr = formatEntryDate(gig);
 
-                // Extract dates/years for year matching safely
-                const startYear = gig.date && !isNaN(new Date(gig.date).getTime()) 
-                    ? new Date(gig.date).getFullYear().toString() 
-                    : '';
-                const endYear = gig.end_date && !isNaN(new Date(gig.end_date).getTime()) 
-                    ? new Date(gig.end_date).getFullYear().toString() 
-                    : '';
-                const formattedDateStr = formatEntryDate(gig);
+                    const titleMatch = (gig.title || '').toLowerCase().includes(searchTerm);
+                    const locationMatch = (gig.location || '').toLowerCase().includes(searchTerm);
+                    const notesMatch = (gig.notes || '').toLowerCase().includes(searchTerm);
+                    const summaryMatch = (gig.summary || '').toLowerCase().includes(searchTerm);
+                    const categorySearchMatch = categories.some(c => c.toLowerCase().includes(searchTerm));
+                    const yearMatch = startYear.includes(searchTerm) || 
+                                      endYear.includes(searchTerm) || 
+                                      formattedDateStr.includes(searchTerm);
 
-                // Search fields matching
-                const titleMatch = (gig.title || '').toLowerCase().includes(searchVal);
-                const summaryMatch = (gig.summary || '').toLowerCase().includes(searchVal);
-                const notesMatch = (gig.notes || '').toLowerCase().includes(searchVal);
-                const categorySearchMatch = categories.some(c => c.toLowerCase().includes(searchVal));
-                
-                // Year match (matches start year, end year, or formatted range)
-                const yearMatch = startYear.includes(searchVal) || 
-                                  endYear.includes(searchVal) || 
-                                  formattedDateStr.includes(searchVal);
+                    return titleMatch || locationMatch || notesMatch || summaryMatch || categorySearchMatch || yearMatch;
+                });
 
-                return titleMatch || summaryMatch || notesMatch || categorySearchMatch || yearMatch;
-            });
-
-            renderGigs(filtered);
-        }
-
-        function renderGigs(gigs) {
-            const container = document.getElementById('works-container');
-            
-            if (gigs.length === 0) {
-                container.innerHTML = `<p style="color: #666;">No works matching your search criteria.</p>`;
-                return;
+                renderGigs(filtered);
             }
 
-            container.innerHTML = gigs.map(gig => {
-                const title = gig.title || "Untitled";
-                const dateDisplay = formatEntryDate(gig);
-                const categories = getItemCategories(gig);
+            document.getElementById('search-input').addEventListener('input', applyFilters);
 
-                // Filter out "All" so it's hidden from the entry's rendered tags
-                const visibleCategories = categories.filter(c => c.toLowerCase() !== 'all');
-
-                return `
-                    <div class="work-item">
-                        <div class="work-content">
-                            <div class="work-header">
-                                <span class="work-title">${title}</span>
-                                ${dateDisplay ? `<span class="work-meta">(${dateDisplay})</span>` : ''}
-                            </div>
-                            
-                            ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
-
-                            ${visibleCategories.length > 0 ? `
-                                <div class="entry-tags">
-                                    ${visibleCategories.map(cat => `
-                                        <button class="btn-tag" onclick="filterCategory('${cat}')">[${cat.toLowerCase()}]</button>
-                                    `).join('')}
-                                </div>
-                            ` : ''}
-
-                            <details>
-                                <summary>[+ details / notes]</summary>
-                                <div class="dropdown-content">
-                                    ${gig.image ? `<img src="${gig.image}" alt="${title}" class="work-full-img">` : ''}
-                                    ${gig.location ? `<p><strong>Location:</strong> ${gig.location}</p>` : ''}
-                                    ${gig.notes ? `<p>${gig.notes}</p>` : ''}
-                                    ${gig.ticket_link ? `<p><a href="${gig.ticket_link}" target="_blank">Documentation / External Link →</a></p>` : ''}
-                                </div>
-                            </details>
-                        </div>
-
-                        ${gig.image ? `
-                            <div class="work-thumb-wrapper">
-                                <img src="${gig.image}" alt="${title}" class="work-thumb">
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        fetchGigs();
-    </script>
-</body>
+            loadGigs();
+        </script>
+    </body>
 </html>
