@@ -16,39 +16,40 @@
                 color: #000000;
                 margin: 0;
                 padding: 0;
-                font-size: 18px;
-                line-height: 1.6;
-                -webkit-text-size-adjust: 100%;
+                font-size: 15px;
+                line-height: 1.5;
             }
+            /* Kate Wagner's narrow reading width settings */
             main {
-                width: 760px;
-                max-width: calc(100% - 2em);
-                margin: auto;
-                padding: 3em 1em;
+                width: 100%;
+                max-width: 650px;
+                margin: 0 auto;
+                padding: 2em 1.25em;
             }
             header {
                 text-align: center;
-                margin-bottom: 2em;
+                margin-bottom: 1.5em;
+                font-size: 14px;
             }
             a {
-                color: black;
+                color: #000000;
                 text-decoration: underline;
             }
             a:visited { color: #0A0436; }
-            a:hover { color: #555; }
+            a:hover { color: #555555; }
 
-            /* Filter Bar Styles */
+            /* Sebastian Adams Filter Controls */
             .controls {
                 background: #f4f4f4;
-                padding: 15px;
+                padding: 12px 14px;
                 border: 1px solid #ddd;
                 margin-bottom: 2em;
-                font-size: 15px;
+                font-size: 13px;
             }
             .filter-group {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 10px;
+                gap: 8px;
                 align-items: center;
                 margin-bottom: 10px;
             }
@@ -57,7 +58,7 @@
             }
             input[type="text"] {
                 padding: 5px 8px;
-                font-size: 14px;
+                font-size: 13px;
                 border: 1px solid #ccc;
                 flex-grow: 1;
                 width: 100%;
@@ -65,119 +66,49 @@
             button.btn-filter {
                 background: #e0e0e0;
                 border: 1px solid #aaa;
-                padding: 4px 10px;
+                padding: 3px 8px;
                 cursor: pointer;
-                font-size: 13px;
+                font-size: 12px;
             }
             button.btn-filter.active {
-                background: #000;
-                color: #fff;
+                background: #000000;
+                color: #ffffff;
             }
 
-            /* Entry Items Layout */
+            /* Entry Items */
             .work-item {
                 border-bottom: 1px dotted #ccc;
-                padding-bottom: 1.5em;
-                margin-bottom: 1.5em;
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                gap: 15px;
+                padding-bottom: 1.25em;
+                margin-bottom: 1.25em;
             }
-
-            .work-content {
-                flex: 1;
-                min-width: 0;
-            }
-
             .work-meta {
-                font-size: 14px;
-                color: #666;
+                font-size: 12px;
+                color: #666666;
                 text-transform: uppercase;
-                letter-spacing: 1px;
+                letter-spacing: 0.5px;
             }
             .work-title {
-                font-size: 20px;
+                font-size: 17px;
                 font-weight: bold;
                 margin: 0.2em 0;
             }
-
-            .work-summary {
-                display: block;
-                color: #444;
-                font-size: 16px;
-                margin-top: 4px;
-                white-space: pre-line;
-                word-wrap: break-word;
-            }
-
-            /* Inline Clickable Tags */
-            .entry-tags {
-                margin: 0.4em 0;
-                font-size: 14px;
-            }
-            .entry-tag-link {
-                color: #555;
-                cursor: pointer;
-                text-decoration: underline;
-                margin-right: 8px;
-            }
-            .entry-tag-link:hover {
-                color: #000;
-            }
-
-            /* Compact Thumbnail Image */
-            .work-thumb-wrapper {
-                flex-shrink: 0;
-            }
-            .work-thumb {
-                width: 65px;
-                height: 65px;
-                object-fit: cover;
-                border: 1px solid #ccc;
-                display: block;
-            }
-
-            /* Expandable Dropdown Details */
-            details {
-                margin-top: 0.5em;
-                font-size: 15px;
-            }
-            summary {
-                cursor: pointer;
-                color: #000;
-                font-size: 14px;
-                user-select: none;
-            }
-            summary:hover {
-                text-decoration: underline;
-            }
-            .dropdown-content {
-                padding: 0.8em 0 0 0;
-                white-space: pre-line;
-                word-wrap: break-word;
-            }
-            .dropdown-content p {
-                margin: 0.25em 0;
-            }
-            .work-full-img {
+            .work-img {
                 max-width: 100%;
-                max-height: 280px;
+                max-height: 250px;
                 display: block;
                 margin: 10px 0;
-                border: 1px solid #ccc;
             }
 
-            /* Mobile Adjustments */
+            /* Responsive Adjustments for Mobile */
             @media (max-width: 600px) {
-                .work-item {
-                    flex-direction: column-reverse;
-                    align-items: flex-start;
-                    gap: 10px;
+                body {
+                    font-size: 14px;
                 }
-                .work-thumb {
-                    width: 55px;
-                    height: 55px;
+                main {
+                    padding: 1.25em 1em;
+                }
+                .controls {
+                    padding: 10px;
                 }
             }
         </style>
@@ -192,16 +123,14 @@
             <div class="controls">
                 <div class="filter-group">
                     <strong>SEARCH:</strong>
-                    <input type="text" id="search-input" placeholder="Type title, category, year...">
+                    <input type="text" id="search-input" placeholder="Type to filter works...">
                 </div>
                 <div class="filter-group" id="category-buttons">
                     <strong>BROWSE:</strong>
                     <button class="btn-filter active" onclick="filterCategory('ALL')">ALL</button>
-                    <button class="btn-filter" onclick="filterCategory('Composition')">COMPOSITION</button>
                     <button class="btn-filter" onclick="filterCategory('Performance')">PERFORMANCES</button>
                     <button class="btn-filter" onclick="filterCategory('Music Release')">RELEASES</button>
                     <button class="btn-filter" onclick="filterCategory('Theatre')">THEATRE</button>
-                    <button class="btn-filter" onclick="filterCategory('Installation')">INSTALLATION</button>
                 </div>
             </div>
 
@@ -222,50 +151,16 @@
                     if (!response.ok) throw new Error("No works found");
                     
                     const files = await response.json();
-                    
-                    // Filter exclusively for JSON files to prevent hidden file errors
-                    const jsonFiles = files.filter(file => file.name.endsWith('.json'));
-                    const gigPromises = jsonFiles.map(file => fetch(file.download_url).then(res => res.json()));
+                    const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
                     allGigs = await Promise.all(gigPromises);
 
-                    // Safe Date Sorting (newest start date first)
-                    allGigs.sort((a, b) => {
-                        const timeA = a.date ? new Date(a.date).getTime() : 0;
-                        const timeB = b.date ? new Date(b.date).getTime() : 0;
-                        return timeB - timeA;
-                    });
+                    // Sort newest first
+                    allGigs.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                    applyFilters();
+                    renderGigs(allGigs);
                 } catch (err) {
                     container.innerHTML = "No archive items found.";
                 }
-            }
-
-            function getItemCategories(gig) {
-                let cats = [];
-                if (Array.isArray(gig.categories)) cats = gig.categories;
-                else if (Array.isArray(gig.category)) cats = gig.category;
-                else if (typeof gig.category === 'string') cats = [gig.category];
-                else cats = ['Performance'];
-                return cats;
-            }
-
-            function formatEntryDate(gig) {
-                if (!gig || !gig.date) return '';
-                const startDate = new Date(gig.date);
-                if (isNaN(startDate.getTime())) return '';
-
-                const startYear = startDate.getFullYear();
-                
-                if (gig.end_date) {
-                    const endDate = new Date(gig.end_date);
-                    if (!isNaN(endDate.getTime())) {
-                        const endYear = endDate.getFullYear();
-                        return startYear === endYear ? `${startYear}` : `${startYear}–${endYear}`;
-                    }
-                }
-                
-                return `${startYear}`;
             }
 
             function renderGigs(items) {
@@ -275,52 +170,19 @@
                     return;
                 }
 
-                container.innerHTML = items.map(gig => {
-                    const title = gig.title || "Untitled";
-                    const dateDisplay = formatEntryDate(gig);
-                    const categories = getItemCategories(gig);
-                    const primaryCat = categories[0] || 'WORK';
-                    const visibleCategories = categories.filter(c => c.toLowerCase() !== 'all');
-
-                    return `
-                        <div class="work-item">
-                            <div class="work-content">
-                                <div class="work-meta">
-                                    [${primaryCat.toUpperCase()}] — ${dateDisplay}
-                                </div>
-                                <div class="work-title">
-                                    <i>${title}</i> ${gig.location ? `— ${gig.location}` : ''}
-                                </div>
-                                
-                                ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
-
-                                ${visibleCategories.length > 0 ? `
-                                    <div class="entry-tags">
-                                        ${visibleCategories.map(cat => `
-                                            <span class="entry-tag-link" onclick="filterCategory('${cat}')">#${cat.toLowerCase()}</span>
-                                        `).join('')}
-                                    </div>
-                                ` : ''}
-
-                                <details>
-                                    <summary>[+] details / notes</summary>
-                                    <div class="dropdown-content">
-                                        ${gig.image ? `<img src="${gig.image}" alt="${title}" class="work-full-img">` : ''}
-                                        ${gig.location ? `<p><strong>Location:</strong> ${gig.location}</p>` : ''}
-                                        ${gig.notes ? `<p>${gig.notes}</p>` : ''}
-                                        ${gig.ticket_link ? `<p><a href="${gig.ticket_link}" target="_blank">Documentation / External Link →</a></p>` : ''}
-                                    </div>
-                                </details>
-                            </div>
-
-                            ${gig.image ? `
-                                <div class="work-thumb-wrapper">
-                                    <img src="${gig.image}" alt="${title}" class="work-thumb">
-                                </div>
-                            ` : ''}
+                container.innerHTML = items.map(gig => `
+                    <div class="work-item">
+                        <div class="work-meta">
+                            [${gig.category || 'WORK'}] — ${new Date(gig.date).toLocaleDateString('en-GB')}
                         </div>
-                    `;
-                }).join('');
+                        <div class="work-title">
+                            <i>${gig.title}</i> ${gig.location ? `— ${gig.location}` : ''}
+                        </div>
+                        ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
+                        ${gig.notes ? `<p style="margin:0.5em 0;">${gig.notes}</p>` : ''}
+                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank" style="font-size:13px;">[link / details]</a>` : ''}
+                    </div>
+                `).join('');
             }
 
             function filterCategory(cat) {
@@ -334,35 +196,14 @@
             }
 
             function applyFilters() {
-                const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+                const searchTerm = document.getElementById('search-input').value.toLowerCase();
                 
                 const filtered = allGigs.filter(gig => {
-                    const categories = getItemCategories(gig);
-                    
-                    const matchesCategory = (activeCategory === 'ALL' || 
-                        categories.some(c => c.toLowerCase() === activeCategory.toLowerCase()));
-
-                    if (!matchesCategory) return false;
-                    if (!searchTerm) return true;
-
-                    const startYear = gig.date && !isNaN(new Date(gig.date).getTime()) 
-                        ? new Date(gig.date).getFullYear().toString() 
-                        : '';
-                    const endYear = gig.end_date && !isNaN(new Date(gig.end_date).getTime()) 
-                        ? new Date(gig.end_date).getFullYear().toString() 
-                        : '';
-                    const formattedDateStr = formatEntryDate(gig);
-
-                    const titleMatch = (gig.title || '').toLowerCase().includes(searchTerm);
-                    const locationMatch = (gig.location || '').toLowerCase().includes(searchTerm);
-                    const notesMatch = (gig.notes || '').toLowerCase().includes(searchTerm);
-                    const summaryMatch = (gig.summary || '').toLowerCase().includes(searchTerm);
-                    const categorySearchMatch = categories.some(c => c.toLowerCase().includes(searchTerm));
-                    const yearMatch = startYear.includes(searchTerm) || 
-                                      endYear.includes(searchTerm) || 
-                                      formattedDateStr.includes(searchTerm);
-
-                    return titleMatch || locationMatch || notesMatch || summaryMatch || categorySearchMatch || yearMatch;
+                    const matchesCategory = (activeCategory === 'ALL' || gig.category === activeCategory);
+                    const matchesSearch = (gig.title?.toLowerCase().includes(searchTerm) || 
+                                           gig.location?.toLowerCase().includes(searchTerm) ||
+                                           gig.notes?.toLowerCase().includes(searchTerm));
+                    return matchesCategory && matchesSearch;
                 });
 
                 renderGigs(filtered);
