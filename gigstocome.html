@@ -4,173 +4,200 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>upcoming shows</title>
+        <title>Thomas Kerr - Works & Performances</title>
         
         <style>
             * {
                 box-sizing: border-box;
-                font-size: medium;
-                text-align: left;
-            }
-            h1, h2, h3 {
-                margin-bottom: 0;
-                padding-bottom: 0;
-            }
-            p {
-                margin-top: 0;
-                padding-top: 0;
-            }
-            img {
-                height: 150px;
-            }
-            header div {
-                display: inline-block;
-                vertical-align: bottom;
+                font-family: 'Calibri', monospace, sans-serif;
             }
             body {
-                font-family: 'Calibri', sans-serif;
-                background-color: #f6e5f3; 
+                background-color: #FFFFFF;
+                color: #000000;
                 margin: 0;
                 padding: 0;
-                background-size: 100% 600px;
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-                font-size: 20px;
-                line-height: 1.7;
+                font-size: 18px;
+                line-height: 1.6;
             }
             main {
-                width: 720px;
+                width: 760px;
                 max-width: calc(100% - 2em);
                 margin: auto;
                 padding: 3em 1em;
             }
             header {
-                margin: 0;
                 text-align: center;
-                padding: 0em 0em;
+                margin-bottom: 2em;
             }
-            nav a {
-                padding: 0.0em 0.0em;
-            }
-            footer {
-                padding: 1em 1em;
-            }
-            .face-name img {
-                display: inline-block;
-                width: auto;
-                height: 100px;
-            }
-            .face-name pre {
-                width: 80%;
-                display: inline-block;
-                height: 100px;
-                line-height: 1.2;
-            }
-            a:link {
+            a {
                 color: black;
-                background-color: transparent;
                 text-decoration: underline;
             }
-            a:visited {
-                color: #0A0436;
-                background-color: transparent;
-                text-decoration: underline;
+            a:visited { color: #0A0436; }
+            a:hover { color: #555; }
+
+            /* Filter Bar Styles */
+            .controls {
+                background: #f4f4f4;
+                padding: 15px;
+                border: 1px solid #ddd;
+                margin-bottom: 2em;
+                font-size: 15px;
             }
-            a:hover {
-                color: black;
-                background-color: transparent;
-                text-decoration: underline;
+            .filter-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-items: center;
+                margin-bottom: 10px;
             }
-            a:active {
-                color: white;
-                background-color: transparent;
-                text-decoration: underline;
+            .filter-group:last-child {
+                margin-bottom: 0;
+            }
+            input[type="text"] {
+                padding: 5px 8px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                flex-grow: 1;
+            }
+            button.btn-filter {
+                background: #e0e0e0;
+                border: 1px solid #aaa;
+                padding: 4px 10px;
+                cursor: pointer;
+                font-size: 13px;
+            }
+            button.btn-filter.active {
+                background: #000;
+                color: #fff;
+            }
+
+            /* Entry Items */
+            .work-item {
+                border-bottom: 1px dotted #ccc;
+                padding-bottom: 1.5em;
+                margin-bottom: 1.5em;
+            }
+            .work-meta {
+                font-size: 14px;
+                color: #666;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .work-title {
+                font-size: 20px;
+                font-weight: bold;
+                margin: 0.2em 0;
+            }
+            .work-img {
+                max-width: 100%;
+                max-height: 250px;
+                display: block;
+                margin: 10px 0;
             }
         </style>
     </head>
     <body>
-        <br><br><br><br>
+        <main>
+            <header>
+                <a href="index.html" style="color:#b5723f">← go back to the beginning</a> 
+            </header>
 
-        <header>
-            <a href="index.html" style="color:#b5723f">go back to the beginning</a> 
-        </header>
+            <!-- Control / Archive Filter Bar -->
+            <div class="controls">
+                <div class="filter-group">
+                    <strong>SEARCH:</strong>
+                    <input type="text" id="search-input" placeholder="Type to filter works...">
+                </div>
+                <div class="filter-group" id="category-buttons">
+                    <strong>BROWSE:</strong>
+                    <button class="btn-filter active" onclick="filterCategory('ALL')">ALL</button>
+                    <button class="btn-filter" onclick="filterCategory('Performance')">PERFORMANCES</button>
+                    <button class="btn-filter" onclick="filterCategory('Music Release')">RELEASES</button>
+                    <button class="btn-filter" onclick="filterCategory('Theatre')">THEATRE</button>
+                </div>
+            </div>
 
- <main>
-    <div id="gigs-container">Loading performances...</div>
+            <!-- Content Area -->
+            <div id="gigs-container">Loading archive...</div>
+        </main>
 
-    <script type="module">
-        import { run } from './play.core/src/run.js'
-        import * as program from './name.js'
-        run(program, { element : document.querySelector('pre') }).then(function(e){
-            console.log(e)
-        }).catch(function(e) {
-            console.warn(e.message)
-            console.log(e.error)
-        })
-    </script>
+        <script>
+            let allGigs = [];
+            let activeCategory = 'ALL';
 
-    <script>
-        async function loadGigs() {
-            const container = document.getElementById('gigs-container');
-            
-            // Connected directly to your repository!
-            const repoUrl = "https://api.github.com/repos/lolcopter3000/thkerr/contents/content/gigs";
+            async function loadGigs() {
+                const container = document.getElementById('gigs-container');
+                const repoUrl = "https://api.github.com/repos/lolcopter3000/thkerr/contents/content/gigs";
 
-            try {
-                const response = await fetch(repoUrl);
-                if (!response.ok) throw new Error("No gigs found yet");
-                
-                const files = await response.json();
-                
-                // Fetch each JSON file contents
-                const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
-                const gigs = await Promise.all(gigPromises);
+                try {
+                    const response = await fetch(repoUrl);
+                    if (!response.ok) throw new Error("No works found");
+                    
+                    const files = await response.json();
+                    const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
+                    allGigs = await Promise.all(gigPromises);
 
-                // Sort gigs by date (newest first)
-                gigs.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    // Sort newest first
+                    allGigs.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                if (gigs.length === 0) {
-                    container.innerHTML = "No upcoming performances listed.";
+                    renderGigs(allGigs);
+                } catch (err) {
+                    container.innerHTML = "No archive items found.";
+                }
+            }
+
+            function renderGigs(items) {
+                const container = document.getElementById('gigs-container');
+                if (items.length === 0) {
+                    container.innerHTML = "<em>No matching entries found.</em>";
                     return;
                 }
 
-                // Render HTML
-                container.innerHTML = gigs.map(gig => `
-                    <div style="margin-bottom: 2em;">
-                        ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" style="display:block; margin-bottom: 0.5em; max-height: 200px;"><br>` : ''}
-                        <strong>${new Date(gig.date).toLocaleDateString('en-GB')}</strong>, 
-                        <i>${gig.title}</i>, ${gig.location}.
-                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank">[tickets]</a>` : ''}
-                        ${gig.notes ? `<p style="margin-top: 0.5em;">${gig.notes}</p>` : ''}
+                container.innerHTML = items.map(gig => `
+                    <div class="work-item">
+                        <div class="work-meta">
+                            [${gig.category || 'WORK'}] — ${new Date(gig.date).toLocaleDateString('en-GB')}
+                        </div>
+                        <div class="work-title">
+                            <i>${gig.title}</i> ${gig.location ? `— ${gig.location}` : ''}
+                        </div>
+                        ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
+                        ${gig.notes ? `<p style="margin:0.5em 0;">${gig.notes}</p>` : ''}
+                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank">[link / details]</a>` : ''}
                     </div>
                 `).join('');
-
-            } catch (err) {
-                container.innerHTML = "No upcoming performances found.";
-            }
-        }
-
-        loadGigs();
-    </script>
-</main>
-        <footer>
-            <p id="time"></p> 
-        </footer>
-
-        <script type="text/javascript" charset="utf-8">
-            const myInterval = setInterval(myTimer, 1000);
-
-            function myTimer() {
-                const date = new Date();
-                const timeElement = document.getElementById("time");
-                if (timeElement) {
-                    timeElement.innerHTML = date.toLocaleTimeString();
-                }
             }
 
-            function myStopFunction() {
-                clearInterval(myInterval);
+            function filterCategory(cat) {
+                activeCategory = cat;
+                
+                // Update active button styles
+                document.querySelectorAll('#category-buttons button').forEach(btn => {
+                    btn.classList.toggle('active', btn.innerText.includes(cat.toUpperCase()));
+                });
+
+                applyFilters();
             }
+
+            function applyFilters() {
+                const searchTerm = document.getElementById('search-input').value.toLowerCase();
+                
+                const filtered = allGigs.filter(gig => {
+                    const matchesCategory = (activeCategory === 'ALL' || gig.category === activeCategory);
+                    const matchesSearch = (gig.title?.toLowerCase().includes(searchTerm) || 
+                                           gig.location?.toLowerCase().includes(searchTerm) ||
+                                           gig.notes?.toLowerCase().includes(searchTerm));
+                    return matchesCategory && matchesSearch;
+                });
+
+                renderGigs(filtered);
+            }
+
+            // Event listener for real-time search
+            document.getElementById('search-input').addEventListener('input', applyFilters);
+
+            loadGigs();
         </script>
     </body>
 </html>
