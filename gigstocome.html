@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Performances</title>
+        <title>Thomas Kerr - Works & Performances</title>
         
         <style>
             * {
@@ -16,38 +16,40 @@
                 color: #000000;
                 margin: 0;
                 padding: 0;
-                font-size: 18px;
-                line-height: 1.6;
+                font-size: 15px;
+                line-height: 1.5;
             }
+            /* Kate Wagner's narrow reading width settings */
             main {
-                width: 760px;
-                max-width: calc(100% - 2em);
-                margin: auto;
-                padding: 3em 1em;
+                width: 100%;
+                max-width: 650px;
+                margin: 0 auto;
+                padding: 2em 1.25em;
             }
             header {
                 text-align: center;
-                margin-bottom: 2em;
+                margin-bottom: 1.5em;
+                font-size: 14px;
             }
             a {
-                color: black;
+                color: #000000;
                 text-decoration: underline;
             }
             a:visited { color: #0A0436; }
-            a:hover { color: #555; }
+            a:hover { color: #555555; }
 
-            /* Filter Bar Styles */
+            /* Sebastian Adams Filter Controls */
             .controls {
                 background: #f4f4f4;
-                padding: 15px;
+                padding: 12px 14px;
                 border: 1px solid #ddd;
                 margin-bottom: 2em;
-                font-size: 15px;
+                font-size: 13px;
             }
             .filter-group {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 10px;
+                gap: 8px;
                 align-items: center;
                 margin-bottom: 10px;
             }
@@ -56,36 +58,37 @@
             }
             input[type="text"] {
                 padding: 5px 8px;
-                font-size: 14px;
+                font-size: 13px;
                 border: 1px solid #ccc;
                 flex-grow: 1;
+                width: 100%;
             }
             button.btn-filter {
                 background: #e0e0e0;
                 border: 1px solid #aaa;
-                padding: 4px 10px;
+                padding: 3px 8px;
                 cursor: pointer;
-                font-size: 13px;
+                font-size: 12px;
             }
             button.btn-filter.active {
-                background: #000;
-                color: #fff;
+                background: #000000;
+                color: #ffffff;
             }
 
             /* Entry Items */
             .work-item {
                 border-bottom: 1px dotted #ccc;
-                padding-bottom: 1.5em;
-                margin-bottom: 1.5em;
+                padding-bottom: 1.25em;
+                margin-bottom: 1.25em;
             }
             .work-meta {
-                font-size: 14px;
-                color: #666;
+                font-size: 12px;
+                color: #666666;
                 text-transform: uppercase;
-                letter-spacing: 1px;
+                letter-spacing: 0.5px;
             }
             .work-title {
-                font-size: 20px;
+                font-size: 17px;
                 font-weight: bold;
                 margin: 0.2em 0;
             }
@@ -94,6 +97,19 @@
                 max-height: 250px;
                 display: block;
                 margin: 10px 0;
+            }
+
+            /* Responsive Adjustments for Mobile */
+            @media (max-width: 600px) {
+                body {
+                    font-size: 14px;
+                }
+                main {
+                    padding: 1.25em 1em;
+                }
+                .controls {
+                    padding: 10px;
+                }
             }
         </style>
     </head>
@@ -164,7 +180,7 @@
                         </div>
                         ${gig.image ? `<img src="${gig.image}" alt="${gig.title}" class="work-img">` : ''}
                         ${gig.notes ? `<p style="margin:0.5em 0;">${gig.notes}</p>` : ''}
-                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank">[link / details]</a>` : ''}
+                        ${gig.ticket_link ? `<a href="${gig.ticket_link}" target="_blank" style="font-size:13px;">[link / details]</a>` : ''}
                     </div>
                 `).join('');
             }
@@ -172,7 +188,6 @@
             function filterCategory(cat) {
                 activeCategory = cat;
                 
-                // Update active button styles
                 document.querySelectorAll('#category-buttons button').forEach(btn => {
                     btn.classList.toggle('active', btn.innerText.includes(cat.toUpperCase()));
                 });
@@ -194,7 +209,6 @@
                 renderGigs(filtered);
             }
 
-            // Event listener for real-time search
             document.getElementById('search-input').addEventListener('input', applyFilters);
 
             loadGigs();
