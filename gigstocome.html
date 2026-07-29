@@ -222,17 +222,17 @@
             </div>
             <div class="filter-group" id="category-pills">
                 <span>Browse:</span>
-                <button class="tag-btn active" onclick="filterCategory('ALL')">All</button> |
-                <button class="tag-btn" onclick="filterCategory('Composition')">Composition</button> |
-                <button class="tag-btn" onclick="filterCategory('Performance')">Performance</button> |
-                <button class="tag-btn" onclick="filterCategory('Music Release')">Releases</button> |
-                <button class="tag-btn" onclick="filterCategory('Theatre')">Theatre</button> |
+                <button class="tag-btn active" onclick="filterCategory('ALL')">all</button> |
+                <button class="tag-btn" onclick="filterCategory('Composition')">composition</button> |
+                <button class="tag-btn" onclick="filterCategory('Performance')">performance</button> |
+                <button class="tag-btn" onclick="filterCategory('Music Release')">releases</button> |
+                <button class="tag-btn" onclick="filterCategory('Theatre')">theatre</button> |
             </div>
         </div>
 
         <!-- Work Entries Stream -->
         <div id="works-container">
-            <p style="color: #666; font-style: italic;">Loading archive...</p>
+            <p style="color: #666; font-style: italic;">loading...</p>
         </div>
     </main>
 
@@ -246,7 +246,7 @@
 
             try {
                 const response = await fetch(repoUrl);
-                if (!response.ok) throw new Error("Could not fetch entries.");
+                if (!response.ok) throw new Error("couldn't.");
                 
                 const files = await response.json();
                 const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
@@ -257,7 +257,7 @@
 
                 applyFilters();
             } catch (err) {
-                container.innerHTML = `<p style="color: #888;">No works currently found in the archive.</p>`;
+                container.innerHTML = `<p style="color: #888;">nothing.</p>`;
             }
         }
 
@@ -266,7 +266,7 @@
             if (Array.isArray(gig.categories)) cats = gig.categories;
             else if (Array.isArray(gig.category)) cats = gig.category;
             else if (typeof gig.category === 'string') cats = [gig.category];
-            else cats = ['Performance'];
+            else cats = ['performance'];
 
             return cats;
         }
@@ -334,7 +334,7 @@
             const container = document.getElementById('works-container');
             
             if (gigs.length === 0) {
-                container.innerHTML = `<p style="color: #666; font-style: italic;">No works matching your search criteria.</p>`;
+                container.innerHTML = `<p style="color: #666; font-style: italic;">nothing.</p>`;
                 return;
             }
 
@@ -370,7 +370,7 @@
                                     ${gig.image ? `<img src="${gig.image}" alt="${title}" class="work-full-img">` : ''}
                                     ${gig.location ? `<p><strong>Location:</strong> ${gig.location}</p>` : ''}
                                     ${gig.notes ? `<p>${gig.notes}</p>` : ''}
-                                    ${gig.ticket_link ? `<p><a href="${gig.ticket_link}" target="_blank">Documentation / External Link →</a></p>` : ''}
+                                    ${gig.ticket_link ? `<p><a href="${gig.ticket_link}" target="_blank">link→</a></p>` : ''}
                                 </div>
                             </details>
                         </div>
