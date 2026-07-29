@@ -17,22 +17,23 @@ collections:
       - { label: "Title / Work Name", name: "title", widget: "string" }
       - { label: "Year / Date", name: "date", widget: "datetime" }
       
-      # 1. CATEGORY TAG (Drives the [performance] / [release] filtering)
-      - label: "Category / Tag"
-        name: "category"
+      # Short 1-2 line summary
+      - { label: "Short Summary / Instrumentation", name: "summary", widget: "string", required: false }
+
+      # MULTIPLE TAGS SELECTOR
+      - label: "Categories / Tags"
+        name: "categories"
         widget: "select"
+        multiple: true
         options:
           - { label: "Performance", value: "Performance" }
           - { label: "Music Release", value: "Music Release" }
           - { label: "Theatre", value: "Theatre" }
           - { label: "Installation / Art", value: "Installation" }
           - { label: "Other", value: "Other" }
-        default: "Performance"
 
-      # 2. BRIEF ITALIC DESCRIPTION (e.g. "for solo piano and tape" or "Live at NUI Galway")
-      - { label: "Brief Description / Instrumentation", name: "location", widget: "string", required: false }
-
-      # 3. EXPANDABLE DROPDOWN CONTENT (Inside [more info / details])
+      # Expandable Dropdown Content
+      - { label: "Venue / Location", name: "location", widget: "string", required: false }
       - { label: "Image / Poster", name: "image", widget: "image", required: false }
       - { label: "Detailed Notes / Archive Info", name: "notes", widget: "text", required: false }
       - { label: "External Link / Audio / Documentation", name: "ticket_link", widget: "string", required: false }
