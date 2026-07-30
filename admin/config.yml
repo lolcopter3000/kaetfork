@@ -15,15 +15,10 @@ collections:
     format: "json"
     fields:
       - { label: "Title / Work Name", name: "title", widget: "string" }
-      
-      # DATE & OPTIONAL DATE RANGE
+      - { label: "Length / Duration", name: "length", widget: "string", required: false, hint: "e.g., 35m, 1hr 10m" }
       - { label: "Start Date / Date", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
       - { label: "End Date (Optional for date ranges)", name: "end_date", widget: "datetime", format: "YYYY-MM-DD", required: false }
-      
-      # Short 1-2 line summary (appears under title in 12px italics)
       - { label: "10w summary", name: "summary", widget: "string", required: false }
-
-      # MULTIPLE TAGS SELECTOR (Includes Composition)
       - label: "Categories / Tags"
         name: "categories"
         widget: "select"
@@ -31,13 +26,9 @@ collections:
         options:
           - { label: "composition", value: "composition" }
           - { label: "performance", value: "performance" }
-          - { label: "music release", value: "music Release" }
+          - { label: "music release", value: "music release" }
           - { label: "theatre", value: "theatre" }
-
-      # Image & Expandable Details
       - { label: "Image", name: "image", widget: "image", required: false }
       - { label: "Where", name: "location", widget: "string", required: false }
       - { label: "More info", name: "notes", widget: "text", required: false }
       - { label: "Link", name: "ticket_link", widget: "string", required: false }
-      # Duration / Length
-      - { label: "Length / Duration", name: "length", widget: "string", required: false, hint: "e.g., 35m, 1hr 10m" }
