@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>thomas kerr</title>
+    
+    <!-- Load Cormorant Garamond from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -13,6 +18,7 @@
         body {
             color: #000000;
             background-color: #ffffff;
+            background-image: url("https://www.transparenttextures.com/patterns/light-wool.png");
             margin: 0;
             padding: 0;
             font-size: 17px;
@@ -69,23 +75,27 @@
         
         /* Tag Buttons */
         .tag-btn {
-            background: transparent;
-            border: 2px;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 3px;
             color: #555555;
             cursor: pointer;
-            padding: 0;
-            font-size: 16px;
+            padding: 2px 8px;
+            font-size: 15px;
             text-decoration: none;
             font-family: inherit;
+            display: inline-block;
         }
         .tag-btn:hover {
-            text-decoration: underline;
+            background: #f0f0f0;
             color: #000000;
+            border-color: #999999;
         }
         .tag-btn.active {
             font-weight: 700;
             color: #000000;
-            text-decoration: underline;
+            border-color: #000000;
+            background: #e8e8e8;
         }
 
         /* Work Entry Item Structure */
@@ -128,18 +138,26 @@
 
         /* Clickable Tags List */
         .entry-tags {
-            margin: 0.4em 0;
-            font-size: 15px;
+            margin: 0.5em 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 14px;
         }
         .entry-tag-link {
-            color: #666666;
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            color: #555555;
             cursor: pointer;
+            padding: 1px 6px;
             text-decoration: none;
-            margin-right: 6px;
+            display: inline-block;
         }
         .entry-tag-link:hover {
+            background: #e8e8e8;
             color: #000000;
-            text-decoration: underline;
+            border-color: #999999;
         }
 
         /* Compact Thumbnail Image */
@@ -214,11 +232,11 @@
             </div>
             <div class="filter-group" id="category-pills">
                 <span>Browse:</span>
-                <button class="tag-btn active" onclick="filterCategory('all')">all</button> |
-                <button class="tag-btn" onclick="filterCategory('composition')">composition</button> |
-                <button class="tag-btn" onclick="filterCategory('performance')">performance</button> |
-                <button class="tag-btn" onclick="filterCategory('music release')">releases</button> |
-                <button class="tag-btn" onclick="filterCategory('theatre')">theatre</button> |
+                <button class="tag-btn active" onclick="filterCategory('all')">[all]</button>
+                <button class="tag-btn" onclick="filterCategory('composition')">[composition]</button>
+                <button class="tag-btn" onclick="filterCategory('performance')">[performance]</button>
+                <button class="tag-btn" onclick="filterCategory('music release')">[releases]</button>
+                <button class="tag-btn" onclick="filterCategory('theatre')">[theatre]</button>
             </div>
         </div>
 
@@ -280,7 +298,7 @@
             
             document.querySelectorAll('#category-pills .tag-btn').forEach(btn => {
                 const text = btn.innerText.toLowerCase();
-                const isMatch = (cat === 'ALL' && text === 'all') || text.includes(cat.toLowerCase());
+                const isMatch = (cat.toLowerCase() === 'all' && text.includes('all')) || text.includes(`[${cat.toLowerCase()}]`) || text.includes(cat.toLowerCase());
                 btn.classList.toggle('active', isMatch);
             });
 
@@ -293,8 +311,8 @@
             const filtered = allGigs.filter(gig => {
                 const categories = getItemCategories(gig);
                 
-                // Category match
-                const categoryMatch = (selectedCategory === 'ALL') || 
+                // Category match (case-insensitive check for ALL)
+                const categoryMatch = (selectedCategory.toUpperCase() === 'ALL') || 
                     categories.some(c => c.toLowerCase() === selectedCategory.toLowerCase());
 
                 if (!categoryMatch) return false;
@@ -351,7 +369,7 @@
                             ${visibleCategories.length > 0 ? `
                                 <div class="entry-tags">
                                     ${visibleCategories.map(cat => `
-                                        <span class="entry-tag-link" onclick="filterCategory('${cat}')">#${cat.toLowerCase()}</span>
+                                        <span class="entry-tag-link" onclick="filterCategory('${cat}')">[${cat.toLowerCase()}]</span>
                                     `).join('')}
                                 </div>
                             ` : ''}
