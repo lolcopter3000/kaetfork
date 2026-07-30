@@ -39,3 +39,5 @@ collections:
       - { label: "Where", name: "location", widget: "string", required: false }
       - { label: "More info", name: "notes", widget: "text", required: false }
       - { label: "Link", name: "ticket_link", widget: "string", required: false }
+      # Duration / Length
+      - { label: "Length / Duration", name: "length", widget: "string", required: false, hint: "e.g., 35m, 1hr 10m" }
