@@ -112,8 +112,11 @@
             font-weight: 700;
         }
 
+        /* Metadata (Year and Duration) styled at 9px */
         .work-meta {
             color: #555555;
+            font-size: 9px;
+            vertical-align: middle;
         }
 
         /* Short summary */
@@ -247,7 +250,10 @@
                 
                 const files = await response.json();
                 const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
-                allGigs = await Promise.all(gigPromises);
+                const rawGigs = await Promise.all(gigPromises);
+
+                // Filter out entries marked as draft
+                allGigs = rawGigs.filter(gig => !gig.draft);
 
                 // Sort newest start date first
                 allGigs.sort((a, b) => new Date(b.date) - new Date(a.date));
