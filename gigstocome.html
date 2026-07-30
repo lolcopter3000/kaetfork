@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>thomas kerr</title>
     
-
     <style>
         * {
             box-sizing: border-box;
@@ -72,7 +71,7 @@
         .tag-btn {
             background: transparent;
             border: none;
-            color: #555555;
+            color: #888888;
             cursor: pointer;
             padding: 0;
             font-size: 9px;
@@ -82,12 +81,11 @@
         }
         .tag-btn:hover {
             color: #000000;
-            text-decoration: underline;
         }
         .tag-btn.active {
-            font-weight: 700;
+            font-weight: normal;
             color: #000000;
-            text-decoration: underline;
+            text-decoration: none;
         }
 
         /* Work Entry Item Structure */
@@ -112,7 +110,6 @@
 
         .work-title {
             font-weight: 700;
-            cursor: pointer;
         }
 
         .work-meta {
@@ -155,6 +152,7 @@
         /* Compact Thumbnail Image */
         .work-thumb-wrapper {
             flex-shrink: 0;
+            cursor: pointer;
         }
         .work-thumb {
             width: 55px;
@@ -187,13 +185,6 @@
         }
         .dropdown-content p {
             margin: 0.25em 0;
-        }
-
-        .work-full-img {
-            max-width: 100%;
-            max-height: 280px;
-            display: block;
-            margin: 10px 0;
         }
 
         @media (max-width: 500px) {
@@ -301,6 +292,13 @@
             applyFilters();
         }
 
+        function toggleDetails(id) {
+            const details = document.getElementById(id);
+            if (details) {
+                details.open = !details.open;
+            }
+        }
+
         function applyFilters() {
             const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
 
@@ -344,10 +342,11 @@
                 return;
             }
 
-            container.innerHTML = gigs.map(gig => {
+            container.innerHTML = gigs.map((gig, index) => {
                 const title = gig.title || "Untitled";
                 const dateDisplay = formatEntryDate(gig);
                 const categories = getItemCategories(gig);
+                const detailsId = `details-${index}`;
 
                 // Filter out "All" so it's hidden from the entry's rendered tags
                 const visibleCategories = categories.filter(c => c.toLowerCase() !== 'all');
@@ -355,15 +354,14 @@
                 return `
                     <div class="work-item">
                         <div class="work-content">
-                            <details>
+                            <details id="${detailsId}">
                                 <summary>
                                     <div class="work-header">
                                         <span class="work-title">${title}</span>
                                         ${dateDisplay ? `<span class="work-meta">(${dateDisplay})</span>` : ''}
                                     </div>
+                                    ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
                                 </summary>
-
-                                ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
 
                                 ${visibleCategories.length > 0 ? `
                                     <div class="entry-tags">
@@ -374,7 +372,6 @@
                                 ` : ''}
 
                                 <div class="dropdown-content">
-                                    ${gig.image ? `<img src="${gig.image}" alt="${title}" class="work-full-img">` : ''}
                                     ${gig.location ? `<p><strong>Location:</strong> ${gig.location}</p>` : ''}
                                     ${gig.notes ? `<p>${gig.notes}</p>` : ''}
                                     ${gig.ticket_link ? `<p><a href="${gig.ticket_link}" target="_blank">link→</a></p>` : ''}
@@ -383,7 +380,7 @@
                         </div>
 
                         ${gig.image ? `
-                            <div class="work-thumb-wrapper">
+                            <div class="work-thumb-wrapper" onclick="toggleDetails('${detailsId}')">
                                 <img src="${gig.image}" alt="${title}" class="work-thumb">
                             </div>
                         ` : ''}
