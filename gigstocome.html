@@ -112,7 +112,7 @@
             font-weight: 700;
         }
 
-        /* Metadata (Year and Duration) styled at 9px */
+        /* Year and Duration styled strictly at 9px */
         .work-meta {
             color: #555555;
             font-size: 9px;
@@ -221,7 +221,6 @@
                 >
             </div>
             <div class="filter-group" id="category-pills">
-                <span>Browse:</span>
                 <button class="tag-btn active" onclick="filterCategory('all')">[all]</button>
                 <button class="tag-btn" onclick="filterCategory('composition')">[composition]</button>
                 <button class="tag-btn" onclick="filterCategory('performance')">[performance]</button>
@@ -252,7 +251,7 @@
                 const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
                 const rawGigs = await Promise.all(gigPromises);
 
-                // Filter out entries marked as draft
+                // Hide draft entries
                 allGigs = rawGigs.filter(gig => !gig.draft);
 
                 // Sort newest start date first
@@ -291,7 +290,7 @@
             
             document.querySelectorAll('#category-pills .tag-btn').forEach(btn => {
                 const text = btn.innerText.toLowerCase();
-                const isMatch = (cat.toLowerCase() === 'all' && text.includes('all')) || text.includes(`[${cat.toLowerCase()}]`) || text.includes(cat.toLowerCase());
+                const isMatch = (cat.toLowerCase() === 'all' && text.includes('all')) || text.includes(cat.toLowerCase());
                 btn.classList.toggle('active', isMatch);
             });
 
@@ -311,28 +310,21 @@
             const filtered = allGigs.filter(gig => {
                 const categories = getItemCategories(gig);
                 
-                // Category match (case-insensitive check for ALL)
                 const categoryMatch = (selectedCategory.toUpperCase() === 'ALL') || 
                     categories.some(c => c.toLowerCase() === selectedCategory.toLowerCase());
 
                 if (!categoryMatch) return false;
-
-                // If search input is empty, return category match
                 if (!searchVal) return true;
 
-                // Extract dates/years for year matching
                 const startYear = gig.date ? new Date(gig.date).getFullYear().toString() : '';
                 const endYear = gig.end_date ? new Date(gig.end_date).getFullYear().toString() : '';
                 const formattedDateStr = formatEntryDate(gig);
 
-                // Search fields matching
                 const titleMatch = (gig.title || '').toLowerCase().includes(searchVal);
                 const summaryMatch = (gig.summary || '').toLowerCase().includes(searchVal);
                 const notesMatch = (gig.notes || '').toLowerCase().includes(searchVal);
                 const categorySearchMatch = categories.some(c => c.toLowerCase().includes(searchVal));
                 const lengthMatch = (gig.length || '').toLowerCase().includes(searchVal);
-                
-                // Year match (matches start year, end year, or formatted range)
                 const yearMatch = startYear.includes(searchVal) || endYear.includes(searchVal) || formattedDateStr.includes(searchVal);
 
                 return titleMatch || summaryMatch || notesMatch || categorySearchMatch || yearMatch || lengthMatch;
@@ -356,7 +348,6 @@
                 const categories = getItemCategories(gig);
                 const detailsId = `details-${index}`;
 
-                // Filter out "All" so it's hidden from the entry's rendered tags
                 const visibleCategories = categories.filter(c => c.toLowerCase() !== 'all');
 
                 return `
