@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>thomas kerr</title>
     
-    <!-- Load Cormorant Garamond from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -74,27 +70,24 @@
         
         /* Tag Buttons */
         .tag-btn {
-            background: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            background: transparent;
+            border: none;
             color: #555555;
             cursor: pointer;
-            padding: 2px 8px;
-            font-size: 15px;
+            padding: 0;
+            font-size: 9px;
             text-decoration: none;
             font-family: inherit;
             display: inline-block;
         }
         .tag-btn:hover {
-            background: #f0f0f0;
             color: #000000;
-            border-color: #999999;
+            text-decoration: underline;
         }
         .tag-btn.active {
             font-weight: 700;
             color: #000000;
-            border-color: #000000;
-            background: #e8e8e8;
+            text-decoration: underline;
         }
 
         /* Work Entry Item Structure */
@@ -119,6 +112,7 @@
 
         .work-title {
             font-weight: 700;
+            cursor: pointer;
         }
 
         .work-meta {
@@ -141,22 +135,21 @@
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            font-size: 14px;
+            font-size: 9px;
         }
         .entry-tag-link {
-            background: #f4f4f4;
-            border: 1px solid #ddd;
-            border-radius: 3px;
+            background: transparent;
+            border: none;
             color: #555555;
             cursor: pointer;
-            padding: 1px 6px;
+            padding: 0;
             text-decoration: none;
             display: inline-block;
+            font-size: 9px;
         }
         .entry-tag-link:hover {
-            background: #e8e8e8;
             color: #000000;
-            border-color: #999999;
+            text-decoration: underline;
         }
 
         /* Compact Thumbnail Image */
@@ -174,7 +167,7 @@
 
         /* Expandable Dropdown */
         details {
-            margin-top: 0.5em;
+            margin-top: 0;
             font-size: 16px;
         }
         summary {
@@ -182,6 +175,10 @@
             color: #000000;
             font-size: 16px;
             user-select: none;
+            list-style: none;
+        }
+        summary::-webkit-details-marker {
+            display: none;
         }
         
         .dropdown-content {
@@ -358,23 +355,24 @@
                 return `
                     <div class="work-item">
                         <div class="work-content">
-                            <div class="work-header">
-                                <span class="work-title">${title}</span>
-                                ${dateDisplay ? `<span class="work-meta">(${dateDisplay})</span>` : ''}
-                            </div>
-                            
-                            ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
-
-                            ${visibleCategories.length > 0 ? `
-                                <div class="entry-tags">
-                                    ${visibleCategories.map(cat => `
-                                        <span class="entry-tag-link" onclick="filterCategory('${cat}')">[${cat.toLowerCase()}]</span>
-                                    `).join('')}
-                                </div>
-                            ` : ''}
-
                             <details>
-                                <summary>notes / details</summary>
+                                <summary>
+                                    <div class="work-header">
+                                        <span class="work-title">${title}</span>
+                                        ${dateDisplay ? `<span class="work-meta">(${dateDisplay})</span>` : ''}
+                                    </div>
+                                </summary>
+
+                                ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
+
+                                ${visibleCategories.length > 0 ? `
+                                    <div class="entry-tags">
+                                        ${visibleCategories.map(cat => `
+                                            <span class="entry-tag-link" onclick="filterCategory('${cat}')">[${cat.toLowerCase()}]</span>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+
                                 <div class="dropdown-content">
                                     ${gig.image ? `<img src="${gig.image}" alt="${title}" class="work-full-img">` : ''}
                                     ${gig.location ? `<p><strong>Location:</strong> ${gig.location}</p>` : ''}
