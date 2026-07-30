@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>thomas kerr</title>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+        }
+        body {
+            color: #000000;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        /* Container width */
+        main {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 2.5em 1.25em;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2em;
+            font-size: 16px;
+        }
+
+        a {
+            color: #000000;
+            text-decoration: underline;
+        }
+        a:visited { color: #0A0436; }
+        a:hover { color: #555555; }
+
+        /* Filter & Control Bar */
+        .controls {
+            background: #f9f9f9;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            margin-bottom: 2em;
+            font-size: 16px;
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+        input[type="text"] {
+            padding: 6px 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            flex-grow: 1;
+            width: 100%;
+            font-family: inherit;
+        }
+        
+        /* Tag Buttons */
+        .tag-btn {
+            background: transparent;
+            border: none;
+            color: #888888;
+            cursor: pointer;
+            padding: 0;
+            font-size: 9px;
+            text-decoration: none;
+            font-family: inherit;
+            display: inline-block;
+        }
+        .tag-btn:hover {
+            color: #000000;
+        }
+        .tag-btn.active {
+            font-weight: normal;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        /* Work Entry Item Structure */
+        .work-item {
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 1.25em;
+            margin-bottom: 1.25em;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .work-content {
+            flex: 1;
+        }
+
+        .work-header {
+            font-size: 19px;
+            line-height: 1.3;
+        }
+
+        .work-title {
+            font-weight: 700;
+        }
+
+        /* Year and Duration styled strictly at 9px */
+        .work-meta {
+            color: #555555;
+            font-size: 9px;
+            vertical-align: middle;
+        }
+
+        /* Short summary */
+        .work-summary {
+            display: block;
+            color: #555555;
+            font-style: italic;
+            font-size: 15px;
+            margin-top: 2px;
+            white-space: pre-line;
+        }
+
+        /* Clickable Tags List */
+        .entry-tags {
+            margin: 0.5em 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 9px;
+        }
+        .entry-tag-link {
+            background: transparent;
+            border: none;
+            color: #555555;
+            cursor: pointer;
+            padding: 0;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 9px;
+        }
+        .entry-tag-link:hover {
+            color: #000000;
+            text-decoration: underline;
+        }
+
+        /* Compact Thumbnail Image */
+        .work-thumb-wrapper {
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .work-thumb {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border: 1px solid #eee;
+            border-radius: 2px;
+            display: block;
+        }
+
+        /* Expandable Dropdown */
+        details {
+            margin-top: 0;
+            font-size: 16px;
+        }
+        summary {
+            cursor: pointer;
+            color: #000000;
+            font-size: 16px;
+            user-select: none;
+            list-style: none;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .dropdown-content {
+            padding: 0.8em 0 0 0;
+            white-space: pre-line;
+        }
+        .dropdown-content p {
+            margin: 0.25em 0;
+        }
+
+        @media (max-width: 500px) {
+            .work-item {
+                flex-direction: column-reverse;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .work-thumb {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <header>
+            <p><a href="index.html">← go back to the beginning</a></p>
+        </header>
+
+        <!-- Controls / Search Bar -->
+        <div class="controls">
+            <div class="filter-group">
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="search for a title, category, year..." 
+                    oninput="applyFilters()"
+                >
+            </div>
+            <div class="filter-group" id="category-pills">
+                <button class="tag-btn active" onclick="filterCategory('all')">[all]</button>
+                <button class="tag-btn" onclick="filterCategory('composition')">[composition]</button>
+                <button class="tag-btn" onclick="filterCategory('performance')">[performance]</button>
+                <button class="tag-btn" onclick="filterCategory('music release')">[releases]</button>
+                <button class="tag-btn" onclick="filterCategory('theatre')">[theatre]</button>
+            </div>
+        </div>
+
+        <!-- Work Entries Stream -->
+        <div id="works-container">
+            <p style="color: #666; font-style: italic;">loading...</p>
+        </div>
+    </main>
+
+    <script>
+        let allGigs = [];
+        let selectedCategory = 'ALL';
+
+        async function fetchGigs() {
+            const repoUrl = "https://api.github.com/repos/lolcopter3000/thkerr/contents/content/gigs";
+            const container = document.getElementById('works-container');
+
+            try {
+                const response = await fetch(repoUrl);
+                if (!response.ok) throw new Error("couldn't.");
+                
+                const files = await response.json();
+                const gigPromises = files.map(file => fetch(file.download_url).then(res => res.json()));
+                const rawGigs = await Promise.all(gigPromises);
+
+                // Hide draft entries
+                allGigs = rawGigs.filter(gig => !gig.draft);
+
+                // Sort newest start date first
+                allGigs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                applyFilters();
+            } catch (err) {
+                container.innerHTML = `<p style="color: #888;">nothing.</p>`;
+            }
+        }
+
+        function getItemCategories(gig) {
+            let cats = [];
+            if (Array.isArray(gig.categories)) cats = gig.categories;
+            else if (Array.isArray(gig.category)) cats = gig.category;
+            else if (typeof gig.category === 'string') cats = [gig.category];
+            else cats = ['performance'];
+
+            return cats;
+        }
+
+        function formatEntryDate(gig) {
+            if (!gig.date) return '';
+            const startYear = new Date(gig.date).getFullYear();
+            
+            if (gig.end_date) {
+                const endYear = new Date(gig.end_date).getFullYear();
+                return startYear === endYear ? `${startYear}` : `${startYear}–${endYear}`;
+            }
+            
+            return `${startYear}`;
+        }
+
+        function filterCategory(cat) {
+            selectedCategory = cat;
+            
+            document.querySelectorAll('#category-pills .tag-btn').forEach(btn => {
+                const text = btn.innerText.toLowerCase();
+                const isMatch = (cat.toLowerCase() === 'all' && text.includes('all')) || text.includes(cat.toLowerCase());
+                btn.classList.toggle('active', isMatch);
+            });
+
+            applyFilters();
+        }
+
+        function toggleDetails(id) {
+            const details = document.getElementById(id);
+            if (details) {
+                details.open = !details.open;
+            }
+        }
+
+        function applyFilters() {
+            const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
+
+            const filtered = allGigs.filter(gig => {
+                const categories = getItemCategories(gig);
+                
+                const categoryMatch = (selectedCategory.toUpperCase() === 'ALL') || 
+                    categories.some(c => c.toLowerCase() === selectedCategory.toLowerCase());
+
+                if (!categoryMatch) return false;
+                if (!searchVal) return true;
+
+                const startYear = gig.date ? new Date(gig.date).getFullYear().toString() : '';
+                const endYear = gig.end_date ? new Date(gig.end_date).getFullYear().toString() : '';
+                const formattedDateStr = formatEntryDate(gig);
+
+                const titleMatch = (gig.title || '').toLowerCase().includes(searchVal);
+                const summaryMatch = (gig.summary || '').toLowerCase().includes(searchVal);
+                const notesMatch = (gig.notes || '').toLowerCase().includes(searchVal);
+                const categorySearchMatch = categories.some(c => c.toLowerCase().includes(searchVal));
+                const lengthMatch = (gig.length || '').toLowerCase().includes(searchVal);
+                const yearMatch = startYear.includes(searchVal) || endYear.includes(searchVal) || formattedDateStr.includes(searchVal);
+
+                return titleMatch || summaryMatch || notesMatch || categorySearchMatch || yearMatch || lengthMatch;
+            });
+
+            renderGigs(filtered);
+        }
+
+        function renderGigs(gigs) {
+            const container = document.getElementById('works-container');
+            
+            if (gigs.length === 0) {
+                container.innerHTML = `<p style="color: #666; font-style: italic;">nothing.</p>`;
+                return;
+            }
+
+            container.innerHTML = gigs.map((gig, index) => {
+                const title = gig.title || "Untitled";
+                const dateDisplay = formatEntryDate(gig);
+                const lengthDisplay = gig.length ? `(${gig.length})` : '';
+                const categories = getItemCategories(gig);
+                const detailsId = `details-${index}`;
+
+                const visibleCategories = categories.filter(c => c.toLowerCase() !== 'all');
+
+                return `
+                    <div class="work-item">
+                        <div class="work-content">
+                            <details id="${detailsId}">
+                                <summary>
+                                    <div class="work-header">
+                                        <span class="work-title">${title}</span>
+                                        ${dateDisplay ? `<span class="work-meta">(${dateDisplay})</span>` : ''}
+                                        ${lengthDisplay ? `<span class="work-meta">${lengthDisplay}</span>` : ''}
+                                    </div>
+                                    ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
+                                </summary>
+
+                                ${visibleCategories.length > 0 ? `
+                                    <div class="entry-tags">
+                                        ${visibleCategories.map(cat => `
+                                            <span class="entry-tag-link" onclick="filterCategory('${cat}')">[${cat.toLowerCase()}]</span>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+
+                                <div class="dropdown-content">
+                                    ${gig.location ? `<p><strong>Location:</strong> ${gig.location}</p>` : ''}
+                                    ${gig.notes ? `<p>${gig.notes}</p>` : ''}
+                                    ${gig.ticket_link ? `<p><a href="${gig.ticket_link}" target="_blank">link→</a></p>` : ''}
+                                </div>
+                            </details>
+                        </div>
+
+                        ${gig.image ? `
+                            <div class="work-thumb-wrapper" onclick="toggleDetails('${detailsId}')">
+                                <img src="${gig.image}" alt="${title}" class="work-thumb">
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        fetchGigs();
+    </script>
+</body>
+</html>
