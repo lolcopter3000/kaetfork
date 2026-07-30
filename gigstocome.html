@@ -324,11 +324,12 @@
                 const summaryMatch = (gig.summary || '').toLowerCase().includes(searchVal);
                 const notesMatch = (gig.notes || '').toLowerCase().includes(searchVal);
                 const categorySearchMatch = categories.some(c => c.toLowerCase().includes(searchVal));
+                const lengthMatch = (gig.length || '').toLowerCase().includes(searchVal);
                 
                 // Year match (matches start year, end year, or formatted range)
                 const yearMatch = startYear.includes(searchVal) || endYear.includes(searchVal) || formattedDateStr.includes(searchVal);
 
-                return titleMatch || summaryMatch || notesMatch || categorySearchMatch || yearMatch;
+                return titleMatch || summaryMatch || notesMatch || categorySearchMatch || yearMatch || lengthMatch;
             });
 
             renderGigs(filtered);
@@ -345,6 +346,7 @@
             container.innerHTML = gigs.map((gig, index) => {
                 const title = gig.title || "Untitled";
                 const dateDisplay = formatEntryDate(gig);
+                const lengthDisplay = gig.length ? `(${gig.length})` : '';
                 const categories = getItemCategories(gig);
                 const detailsId = `details-${index}`;
 
@@ -359,6 +361,7 @@
                                     <div class="work-header">
                                         <span class="work-title">${title}</span>
                                         ${dateDisplay ? `<span class="work-meta">(${dateDisplay})</span>` : ''}
+                                        ${lengthDisplay ? `<span class="work-meta">${lengthDisplay}</span>` : ''}
                                     </div>
                                     ${gig.summary ? `<span class="work-summary">${gig.summary}</span>` : ''}
                                 </summary>
